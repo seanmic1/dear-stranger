@@ -9,3 +9,22 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id                Int      @id @default(autoincrement())
+  email             String   @unique
+  name              String
+  country           String
+  letters           Letter[] @relation("letterAuth")
+  responses         Letter[] @relation("responseAuth")
+}
+
+model Letter {
+  id                Int  @id @default(autoincrement())
+	letterAuthor      User @relation("letterAuth", fields: [letterAuthorId], references: [id])
+  letterAuthorId    Int
+	letterContent     String
+	responseAuthor    User? @relation("responseAuth", fields: [responseAuthorId], references: [id])
+  responseAuthorId  Int?
+	responseContent   String?
+}
