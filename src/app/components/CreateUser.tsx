@@ -1,11 +1,6 @@
 "use client"
 
-import { User } from "@prisma/client"
-import Link from "next/link"
-import { NextRequest } from "next/server"
 import { FormEvent, cache, use } from "react"
-import css from "styled-jsx/css"
-import { square } from "../../../styled-system/patterns"
 
 
 export default function CreateUser() {
@@ -22,13 +17,18 @@ export default function CreateUser() {
     // Handle response if necessary
     const data = await response.json()
     // ...
+
+    let myForm = document.getElementById("createUser") as HTMLFormElement
+
+    myForm.reset()
+
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <input type="text" name="email" />      
-      <input type="text" name="name" />
-      <input type="text" name="country" />
+    <form id="createUser" onSubmit={onSubmit}>
+      <input type="text" name="email" placeholder="email" />      
+      <input type="text" name="name" placeholder="name"/>
+      <input type="text" name="country" placeholder="country"/>
       <br></br>
       <button type="submit" style={{background:"gray"}}>Submit</button>
     </form>

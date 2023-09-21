@@ -1,5 +1,6 @@
 import { css } from '../../styled-system/css';
 import prisma from '@/lib/prisma';
+import HomePage from './components/HomePage';
 
 export default async function Home() {
 
@@ -7,12 +8,7 @@ export default async function Home() {
 
   return (
     <>
-    <div className={css({ fontSize: "2xl", fontWeight: 'bold' })}>Hello 🐼!</div>
-
-    <div>
-      User count: {userCount}
-    </div>
-
+    <HomePage></HomePage>
     </>
   )
 }

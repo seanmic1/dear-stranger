@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET(request:Request, {params}: {params: {id: number}}) {
-  const id = params.id
+export async function GET(request:Request, {params}: {params: {email: string}}) {
+  const email = params.email
   const user = await prisma.user.findUnique({
     where: {
-      id,
+      email
     }
   })
 
@@ -18,13 +18,13 @@ export async function GET(request:Request, {params}: {params: {id: number}}) {
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: { email: string } }
 ) {
-  const id = params.id;
+  const email = params.email;
   let json = await request.json();
 
   const updated_user = await prisma.user.update({
-    where: { id },
+    where: { email },
     data: json,
   });
 
@@ -37,12 +37,12 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: { email: string } }
 ) {
   try {
-    const id = params.id;
+    const email = params.email;
     await prisma.user.delete({
-      where: { id },
+      where: { email },
     });
 
     return new NextResponse(null, { status: 204 });
