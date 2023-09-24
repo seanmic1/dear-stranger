@@ -4,4 +4,4 @@ export { default } from "next-auth/middleware"
 
 // Applies next-auth only to matching routes - can be regex
 // Ref: nextjs middleware matcher
-export const config = { matcher: ["/writeletter"]}
+export const config = { matcher: ["/writeletter","/respondletter"]}
