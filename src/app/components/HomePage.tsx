@@ -27,7 +27,7 @@ export default function HomePage() {
     >
       <div className={center()}>
         <Link href={"/writeletter"}>
-          <div className={center(buttonStyle)}>Write letter</div>
+          <div className={center(buttonStyle)}>Write a letter</div>
         </Link>
       </div>
       <div className={center()}>
