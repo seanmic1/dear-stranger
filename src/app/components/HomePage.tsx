@@ -31,7 +31,7 @@ export default function HomePage() {
         </Link>
       </div>
       <div className={center()}>
-        <Link href={"/readletter"}>
+        <Link href={"/respondletter"}>
           <div className={center(buttonStyle)}>Respond to a letter</div>
         </Link>
       </div>
