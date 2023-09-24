@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,19 +8,22 @@ datasource db {
 }
 
 model User {
-  email             String   @id @unique
-  name              String
-  country           String
-  letters           Letter[] @relation("letterAuth")
-  responses         Letter[] @relation("responseAuth")
+  email           String   @id @unique
+  name            String
+  country         String
+  letters         Letter[] @relation("letterAuth")
+  responses       Letter[] @relation("responseAuth")
+  letterToRespond Int?
 }
 
 model Letter {
-  id                Int  @id @default(autoincrement())
-	letterAuthor      User @relation("letterAuth", fields: [letterAuthorEmail], references: [email])
-  letterAuthorEmail    String
-	letterContent     String
-	responseAuthor    User? @relation("responseAuth", fields: [responseAuthorEmail], references: [email])
-  responseAuthorEmail  String?
-	responseContent   String?
+  id                  Int       @id @default(autoincrement())
+  letterAuthorEmail   String
+  letterContent       String
+  responseAuthorEmail String?
+  responseContent     String?
+  letterDate          DateTime  @default(now())
+  responseDate        DateTime?
+  letterAuthor        User      @relation("letterAuth", fields: [letterAuthorEmail], references: [email])
+  responseAuthor      User?     @relation("responseAuth", fields: [responseAuthorEmail], references: [email])
 }
