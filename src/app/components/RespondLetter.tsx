@@ -5,7 +5,7 @@ import options from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Button from "./Button";
-import { type Letter } from "@prisma/client";
+import { Letter } from "@prisma/client";
 import Link from "next/link";
 
 export default async function RespondLetter() {
