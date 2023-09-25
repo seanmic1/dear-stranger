@@ -1,19 +1,27 @@
 import Link from "next/link";
 import {
+  CenterStyles,
   center,
   container,
   flex,
   linkBox,
   stack,
 } from "../../../styled-system/patterns";
-import { css } from "../../../styled-system/css";
 
 export default function HomePage() {
-  const buttonStyle = {
+  const buttonStyle: CenterStyles = {
     height: "300px",
     width: "400px",
     border: "1px solid black",
     rounded: "lg",
+    _focus:{
+      background: "gray.200"
+    },
+    _hover:{
+      transform: "scale(1.01)",
+      boxShadow: "0 5px 10px 0 rgba(0,0,0,0.19)",
+      transition: "all ease 0.1s"
+    }
   };
 
   return (
@@ -25,7 +33,7 @@ export default function HomePage() {
         gap: "15%",
       })}
     >
-      <div className={center()}>
+      <div className={center({})}>
         <Link href={"/writeletter"}>
           <div className={center(buttonStyle)}>Write a letter</div>
         </Link>

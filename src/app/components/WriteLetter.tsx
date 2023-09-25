@@ -7,6 +7,7 @@ import options from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Button from "./Button";
+import TextAreaWithCounter from "./TextAreaWithCounter";
 
 export default async function WriteLetter() {
   const session = await getServerSession(options);
@@ -36,20 +37,7 @@ export default async function WriteLetter() {
         Write a letter
       </p>
       <form id="letterForm" action={submitLetter}>
-        <textarea
-          name="content"
-          defaultValue={"Dear Stranger,\n\n"}
-          className={css({
-            background: "amber.300",
-            width: "100%",
-            height: "20rem",
-            padding: "12px 20px",
-            border: "2px solid black",
-            _focus: {
-              outline: "none",
-            },
-          })}
-        ></textarea>
+        <TextAreaWithCounter></TextAreaWithCounter>
         <div className={flex({ justifyContent: "space-between" })}>
           <div>
             Email: {session?.user?.email}

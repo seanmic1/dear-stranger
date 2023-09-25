@@ -1,15 +1,25 @@
 import { css } from "../../../styled-system/css";
-import { flex, spacer } from "../../../styled-system/patterns";
+import { FlexStyles, flex, spacer } from "../../../styled-system/patterns";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import options from "../api/auth/[...nextauth]/options";
+import { SystemStyleObject } from "@pandacss/dev";
 
 export default async function Navbar() {
   const session = await getServerSession(options);
 
-  const signButton = {
+  const signButton: SystemStyleObject = {
     border: "1px solid black",
     px: 4,
+    rounded: "sm",
+    _focus:{
+      background: "gray.200"
+    },
+    _hover:{
+      transform: "scale(1.01)",
+      boxShadow: "0 5px 10px 0 rgba(0,0,0,0.19)",
+      transition: "all ease 0.1s"
+    }
   };
 
   if (session !== null) {
