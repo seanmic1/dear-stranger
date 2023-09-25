@@ -1,13 +1,11 @@
-import { FormEvent } from "react";
 import { css } from "../../../styled-system/css";
 import { center, container, flex, stack } from "../../../styled-system/patterns";
-import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import options from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Button from "./Button";
-import { Letter, Prisma } from "@prisma/client";
+import { type Letter } from "@prisma/client";
 import Link from "next/link";
 
 export default async function RespondLetter() {
