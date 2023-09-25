@@ -5,8 +5,8 @@ import options from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Button from "./Button";
-import { Letter } from "@prisma/client";
 import Link from "next/link";
+import { Letter } from "@/generated/client";
 
 export default async function RespondLetter() {
   const session = await getServerSession(options);
@@ -19,13 +19,13 @@ export default async function RespondLetter() {
   // check letterToRespond
   const hasLetter = sessionUser?.letterToRespond !== null;
 
-  var randomLetter: Letter;
-  
+  var randomLetter: any;
+
   if (hasLetter) {
     // get assigned letter
     randomLetter = (await prisma.letter.findUnique({
       where: { id: Number(sessionUser?.letterToRespond) },
-    })) as Letter;
+    }))
   } else {
     // get random letter and assign
     // get unresponded letters that are not by the responder
@@ -37,7 +37,7 @@ export default async function RespondLetter() {
     if (unrespondedLetters.length !== 0) {
       randomLetter = unrespondedLetters.at(
         Math.floor(Math.random() * unrespondedLetters.length)
-      ) as Letter;
+      )
 
       // assign respondAuthor to user
       await prisma.letter.update({
