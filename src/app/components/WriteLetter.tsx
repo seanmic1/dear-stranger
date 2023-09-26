@@ -39,11 +39,6 @@ export default async function WriteLetter() {
       <form id="letterForm" action={submitLetter}>
         <TextAreaWithCounter></TextAreaWithCounter>
         <div className={flex({ justifyContent: "space-between" })}>
-          <div>
-            Email: {session?.user?.email}
-            <br />
-            User: {session?.user?.name}
-          </div>
           <Button></Button>
         </div>
       </form>

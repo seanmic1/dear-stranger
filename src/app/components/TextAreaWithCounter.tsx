@@ -38,6 +38,7 @@ export default function TextAreaWithCounter() {
           padding: "12px 20px",
           border: "2px solid black",
           resize: "none",
+          whiteSpace: "pre-wrap",
           _focus: {
             outline: "none",
           },
