@@ -27,7 +27,7 @@ export default async function ReadResponseID({
   </p>;
   }
 
-  if (session?.user?.email !== letter.letterAuthorEmail || session?.user?.email !== letter.responseAuthorEmail){
+  if (!(session?.user?.email !== letter.letterAuthorEmail) && !(session?.user?.email !== letter.responseAuthorEmail)){
     return <>You do not have permission to read this letter</>
   }
 
