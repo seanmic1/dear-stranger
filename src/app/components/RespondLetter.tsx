@@ -14,6 +14,7 @@ import { Letter, Prisma } from "@prisma/client";
 import Link from "next/link";
 import "@/lib/mailService"
 import { sendMail } from "@/lib/mailService";
+import TextAreaWithCounter from "./TextAreaWithCounter";
 
 export default async function RespondLetter() {
   const session = await getServerSession(options);
@@ -676,26 +677,9 @@ export default async function RespondLetter() {
           action={submitResponse}
           className={css({ width: "50%" })}
         >
-          <textarea
-            name="content"
-            defaultValue={"Dear Stranger,\n\n"}
-            className={css({
-              background: "amber.300",
-              width: "100%",
-              height: "20rem",
-              padding: "12px 20px",
-              border: "2px solid black",
-              _focus: {
-                outline: "none",
-              },
-            })}
-          ></textarea>
+          <TextAreaWithCounter></TextAreaWithCounter>
           <div className={flex({ justifyContent: "space-between" })}>
-            <div>
-              Email: {session?.user?.email}
-              <br />
-              User: {session?.user?.name}
-            </div>
+            <div></div>
             <Button></Button>
           </div>
         </form>
