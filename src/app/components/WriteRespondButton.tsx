@@ -15,6 +15,7 @@ export default function WriteRespondButton({
     height: "300px",
     width: "500px",
     border: "1px solid black",
+    background: "amber.300",
     rounded: "lg",
     _focus:{
       background: "gray.200"
