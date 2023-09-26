@@ -2,11 +2,9 @@ import Link from "next/link";
 import {
   CenterStyles,
   center,
-  container,
-  flex,
-  linkBox,
   stack,
 } from "../../../styled-system/patterns";
+import WriteRespondButton from "./WriteRespondButton";
 
 export default function HomePage() {
   const buttonStyle: CenterStyles = {
@@ -35,12 +33,12 @@ export default function HomePage() {
     >
       <div className={center({})}>
         <Link href={"/writeletter"}>
-          <div className={center(buttonStyle)}>Write a letter</div>
+          <WriteRespondButton>Write a letter</WriteRespondButton>
         </Link>
       </div>
       <div className={center()}>
         <Link href={"/respondletter"}>
-          <div className={center(buttonStyle)}>Respond to a letter</div>
+          <WriteRespondButton>Respond to a letter</WriteRespondButton>
         </Link>
       </div>
     </div>
