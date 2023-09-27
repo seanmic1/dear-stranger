@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import options from "../api/auth/[...nextauth]/options";
 import { SystemStyleObject } from "@pandacss/dev";
+import { cookies } from "next/headers";
 
 export default async function Navbar() {
   const session = await getServerSession(options);
@@ -12,21 +13,42 @@ export default async function Navbar() {
     border: "1px solid black",
     px: 4,
     rounded: "sm",
-    _focus:{
-      background: "gray.200"
+    _focus: {
+      background: "gray.200",
     },
-    _hover:{
+    _hover: {
       transform: "scale(1.01)",
       boxShadow: "0 5px 10px 0 rgba(0,0,0,0.19)",
-      transition: "all ease 0.1s"
-    }
+      transition: "all ease 0.1s",
+    },
   };
+
+  async function setCookieTheme(formData: FormData) {
+    "use server"
+    const cookieStore = cookies()
+    const theme = cookieStore.get("theme")
+    if (theme === undefined){
+      cookieStore.set("theme","light")
+    }
+
+    if (theme?.value === "light"){
+      cookieStore.set("theme","dark")
+    }
+
+    if (theme?.value === "dark"){
+      cookieStore.set("theme","light")
+    }
+    
+  }
 
   if (session !== null) {
     return (
       <div className={flex({ height: "60px", gap: 8, padding: 4 })}>
         <p>Logged in as: {session?.user?.email}</p>
         <div className={spacer()}></div>
+        <form action={setCookieTheme}>
+          <button>Toggle Color Mode</button>
+        </form>
         <Link href="/">
           <div className={css(signButton)}>HOME</div>
         </Link>
@@ -37,8 +59,18 @@ export default async function Navbar() {
     );
   } else {
     return (
-      <div className={flex({ height: "60px", gap: 8, padding: 4 })}>
+      <div
+        className={flex({
+          height: "60px",
+          gap: 8,
+          padding: 4,
+          _dark: { background: "gray.200" },
+        })}
+      >
         <div className={spacer()}></div>
+        <form action={setCookieTheme}>
+          <button>Toggle Color Mode</button>
+        </form>
         <Link href={"/api/auth/signin"}>
           <div className={css(signButton)}>SIGN IN / SIGN UP</div>
         </Link>

@@ -19,6 +19,10 @@ import TextAreaWithCounter from "./TextAreaWithCounter";
 export default async function RespondLetter() {
   const session = await getServerSession(options);
 
+  if (!session){
+    redirect("/api/auth/signin")
+  }
+
   // check if user already has letterToRespond
   // get user
   const sessionUser = await prisma.user.findUnique({

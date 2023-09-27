@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import options from "@/app/api/auth/[...nextauth]/options";
 
 import type { Metadata } from 'next'
+import { redirect } from "next/navigation";
 export const metadata: Metadata = {
   title: 'Read Response',
   description: 'Dear Stranger - Read response',
@@ -19,6 +20,11 @@ export default async function ReadResponseID({
 
   // get session
   const session = await getServerSession(options);
+  
+  // ask to login if no session
+  if (!session){
+    redirect("/api/auth/signin")
+  }
 
   // check if session user has permission to read
 

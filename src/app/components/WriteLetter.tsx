@@ -12,6 +12,10 @@ import TextAreaWithCounter from "./TextAreaWithCounter";
 export default async function WriteLetter() {
   const session = await getServerSession(options);
 
+  if (!session){
+    redirect("/api/auth/signin")
+  }
+
   async function submitLetter(formData: FormData) {
     "use server";
 
