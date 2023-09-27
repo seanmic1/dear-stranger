@@ -11,8 +11,6 @@ import { CSSProperties } from "react";
 import { getServerSession } from "next-auth";
 import options from "./api/auth/[...nextauth]/options";
 
-import {ThemeProvider} from 'next-themes'
-
 import { cookies } from 'next/headers'
 
 import type { Metadata } from "next";
