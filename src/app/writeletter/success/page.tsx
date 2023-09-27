@@ -2,6 +2,12 @@ import Link from "next/link";
 import { css } from "../../../../styled-system/css";
 import { center, container } from "../../../../styled-system/patterns";
 
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'Write success',
+  description: 'Dear Stranger - write success',
+}
+
 export default function writeSuccess() {
   return (
     <div className={container({ maxW: "4xl" })}>

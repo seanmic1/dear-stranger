@@ -5,6 +5,12 @@ import { Letter } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import options from "@/app/api/auth/[...nextauth]/options";
 
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'Read Response',
+  description: 'Dear Stranger - Read response',
+}
+
 export default async function ReadResponseID({
   params,
 }: {

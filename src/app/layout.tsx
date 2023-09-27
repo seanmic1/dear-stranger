@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth'
 import SessionProvider from "./components/SessionProvider"
 import { css } from '../../styled-system/css'
 import Navbar from './components/Navbar'
+import GoogleAnalytics from './components/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +26,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={css({height:"full"})}>
       <body className={inter.className}>
+        <GoogleAnalytics />
         <SessionProvider>
           <Navbar></Navbar>
           {children}
