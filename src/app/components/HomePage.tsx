@@ -35,7 +35,7 @@ export default function HomePage() {
       <div
         className={stack({
           width: "100%",
-          direction: "row",
+          direction: {base: "column", md:"row"},
           justify: "center",
           gap: "15%",
         })}
