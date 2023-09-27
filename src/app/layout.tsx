@@ -1,8 +1,6 @@
 import './globals.css'
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
-import { getServerSession } from 'next-auth'
 import SessionProvider from "./components/SessionProvider"
 import { css } from '../../styled-system/css'
 import Navbar from './components/Navbar'
@@ -10,8 +8,9 @@ import GoogleAnalytics from './components/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
-  title: 'Dear Stranger',
+  title: 'Dear Stranger Home',
   description: 'Dear Stranger - write anonymous letters',
 }
 
@@ -20,8 +19,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
-  const session = await getServerSession()
 
   return (
     <html lang="en" className={css({height:"full"})}>
