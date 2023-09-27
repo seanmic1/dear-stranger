@@ -59,6 +59,7 @@ export default async function ReadResponseID({
               padding: "12px 20px",
               border: "2px solid black",
               whiteSpace: "pre-wrap",
+              overflowY: "scroll",
               _focus: {
                 outline: "none",
               },

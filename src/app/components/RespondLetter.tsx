@@ -667,7 +667,8 @@ export default async function RespondLetter() {
             height: "20rem",
             padding: "12px 20px",
             border: "2px solid black",
-            whiteSpace: "pre-wrap",
+            whiteSpace: "pre-line",
+            overflowY: "scroll",
             _focus: {
               outline: "none",
             },
