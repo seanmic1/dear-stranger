@@ -6,6 +6,7 @@ import options from "../api/auth/[...nextauth]/options";
 import { SystemStyleObject } from "@pandacss/dev";
 import { cookies } from "next/headers";
 import Image from "next/image";
+import ColorModeButton from "./ColorModeButton";
 
 export default async function Navbar() {
   const session = await getServerSession(options);
@@ -26,22 +27,22 @@ export default async function Navbar() {
     background: {base: "gray.200", _dark: "gray.700"}
   };
 
-  async function setCookieTheme(formData: FormData) {
-    "use server";
-    const cookieStore = cookies();
-    const theme = cookieStore.get("theme");
-    if (theme === undefined) {
-      cookieStore.set("theme", "light");
-    }
+  // async function setCookieTheme(formData: FormData) {
+  //   "use server";
+  //   const cookieStore = cookies();
+  //   const theme = cookieStore.get("theme");
+  //   if (theme === undefined) {
+  //     cookieStore.set("theme", "light");
+  //   }
 
-    if (theme?.value === "light") {
-      cookieStore.set("theme", "dark");
-    }
+  //   if (theme?.value === "light") {
+  //     cookieStore.set("theme", "dark");
+  //   }
 
-    if (theme?.value === "dark") {
-      cookieStore.set("theme", "light");
-    }
-  }
+  //   if (theme?.value === "dark") {
+  //     cookieStore.set("theme", "light");
+  //   }
+  // }
 
   if (session !== null) {
     return (
@@ -59,10 +60,12 @@ export default async function Navbar() {
         <p>Logged in as: {session?.user?.email}</p>
 
         <div className={spacer()}></div>
-
-        <form action={setCookieTheme}>
-          <button className={css(signButton)}>Toggle Color Mode</button>
-        </form>
+        
+        <div>
+          <div className={css(signButton)}>
+            <ColorModeButton></ColorModeButton>
+          </div>
+        </div>
 
         <Link href="/api/auth/signout">
           <div className={css(signButton)}>LOG OUT</div>
@@ -76,7 +79,6 @@ export default async function Navbar() {
           height: "60px",
           gap: 8,
           padding: 4,
-          _dark: { background: "gray.200" },
         })}
       >
         <Link href="/" className={css({ alignSelf: "center" })}>
@@ -91,9 +93,12 @@ export default async function Navbar() {
 
         <div className={spacer()}></div>
 
-        <form action={setCookieTheme}>
-          <button>Toggle Color Mode</button>
-        </form>
+        <div>
+          <div className={css(signButton)}>
+            <ColorModeButton></ColorModeButton>
+          </div>
+        </div>
+
         <Link href={"/api/auth/signin"}>
           <div className={css(signButton)}>SIGN IN / SIGN UP</div>
         </Link>

@@ -16,8 +16,8 @@ export default defineConfig({
     },
 
     conditions: {
-      light: '[data-color-mode=light] &',
-      dark: '[data-color-mode=dark] &',
+      light: '[data-theme=light] &',
+      dark: '[data-theme=dark] &',
     },
 
     // The output directory for your css system
