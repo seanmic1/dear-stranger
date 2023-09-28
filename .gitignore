@@ -36,5 +36,5 @@ next-env.d.ts
 .env
 
 # Panda
-styled-system
-styled-system-static
+/styled-system
+/styled-system-static
