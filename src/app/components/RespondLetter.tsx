@@ -101,7 +101,7 @@ export default async function RespondLetter() {
     "use server";
 
     // update letter to create response
-    const response = await prisma.letter.update({
+    const letter = await prisma.letter.update({
       where: {
         id: randomLetter.id,
       },
@@ -112,14 +112,14 @@ export default async function RespondLetter() {
       },
     });
 
-    if (!(response instanceof Prisma.PrismaClientKnownRequestError)) {
+    if (!(letter instanceof Prisma.PrismaClientKnownRequestError)) {
 
       // send email to letter author
 
-      const letterLink = "https://dear-stranger.vercel.app/readresponse/"+String(response.id)
+      const letterLink = "https://dear-stranger.vercel.app/readresponse/"+String(letter.id)
 
       const subject = "Dear Stranger, you got a response to your letter!"
-      const toEmail = String(session?.user?.email)
+      const toEmail = letter.letterAuthorEmail
       const otpText = "Read the response below! \n\n" + String(formData.get("content"))
       const htmlText = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
