@@ -79,8 +79,14 @@ export default async function Navbar() {
           _dark: { background: "gray.200" },
         })}
       >
-        <Link href="/">
-          <div className={css({})}>Logo</div>
+        <Link href="/" className={css({ alignSelf: "center" })}>
+          <Image
+            src="/dslogo.png"
+            width={100}
+            height={100}
+            alt="Dear Stranger Logo"
+            className={css({ p: 2 })}
+          ></Image>
         </Link>
 
         <div className={spacer()}></div>
