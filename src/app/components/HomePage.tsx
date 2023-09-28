@@ -37,7 +37,7 @@ export default function HomePage() {
           width: "100%",
           direction: {base: "column", md:"row"},
           justify: "center",
-          gap: "15%",
+          gap: { base: "10rem", md: "15%" },
           mt: "4rem"
         })}
       >
