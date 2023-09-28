@@ -672,6 +672,9 @@ export default async function RespondLetter() {
             _focus: {
               outline: "none",
             },
+            _dark: {
+              color: "black"
+            }
           })}
         >
           {randomLetter?.letterContent}

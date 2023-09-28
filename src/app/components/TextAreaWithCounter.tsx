@@ -42,6 +42,9 @@ export default function TextAreaWithCounter() {
           _focus: {
             outline: "none",
           },
+          _dark: {
+            color:"black"
+          }
         })}
       ></textarea>
       <div id="counter" className={flex({ justify: "end", gap: 2 })}>
