@@ -12,11 +12,15 @@ export default defineConfig({
 
     // Useful for theme customization
     theme: {
-      extend: {}
+      extend: {},
+    },
+
+    conditions: {
+      light: '[data-color-mode=light] &',
+      dark: '[data-color-mode=dark] &',
     },
 
     // The output directory for your css system
     outdir: "styled-system",
-    
     
 })

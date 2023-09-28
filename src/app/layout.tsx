@@ -33,8 +33,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className={css({ height: "full" })} style={themeStyle}>
-      <body className={inter.className}>
+    <html lang="en" style={themeStyle} data-color-mode={theme === undefined ? "light" : theme.value}>
+      <body className={inter.className + " " + css({background: {base: "white", _dark:"#121212"}})}>
         <GoogleAnalytics />
         <SessionProvider>
           <Navbar></Navbar>
