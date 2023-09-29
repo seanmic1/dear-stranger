@@ -20,14 +20,11 @@ export default function writeSuccess() {
             m:"20",
             padding: "2",
             rounded: "md",
-            background: "blue.400",
+            background: "amber.300",
             border: "2px solid transparent",
             boxSizing: "border-box",
             _hover: {
               border: "2px solid black",
-            },
-            _active: {
-              bg: "gray.500",
             },
           })}
         >
