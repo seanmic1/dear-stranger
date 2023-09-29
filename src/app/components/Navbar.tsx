@@ -1,5 +1,10 @@
 import { css } from "../../../styled-system/css";
-import { FlexStyles, flex, spacer } from "../../../styled-system/patterns";
+import {
+  FlexStyles,
+  center,
+  flex,
+  spacer,
+} from "../../../styled-system/patterns";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import options from "../api/auth/[...nextauth]/options";
@@ -12,96 +17,123 @@ export default async function Navbar() {
   const session = await getServerSession(options);
 
   const signButton: SystemStyleObject = {
-    border: "1px solid black",
-    px: 4,
-    py: 2,
+    border: {base:"2px solid black",_dark:"2px solid white"},
+    color: "black",
+    p: 2,
     rounded: "sm",
-    _focus: {
-      background: "gray.200",
-    },
     _hover: {
       transform: "scale(1.01)",
-      boxShadow: "0 5px 10px 0 rgba(0,0,0,0.19)",
+      boxShadow: {
+        base: "0 5px 10px 0 rgba(0,0,0,0.19)",
+        _dark: "0 5px 10px 0 rgba(255,255,255,0.19)",
+      },
       transition: "all ease 0.1s",
     },
-    background: {base: "gray.200", _dark: "gray.700"}
+    background: { base: "amber.300", _dark: "amber.300" },
   };
-
-  // async function setCookieTheme(formData: FormData) {
-  //   "use server";
-  //   const cookieStore = cookies();
-  //   const theme = cookieStore.get("theme");
-  //   if (theme === undefined) {
-  //     cookieStore.set("theme", "light");
-  //   }
-
-  //   if (theme?.value === "light") {
-  //     cookieStore.set("theme", "dark");
-  //   }
-
-  //   if (theme?.value === "dark") {
-  //     cookieStore.set("theme", "light");
-  //   }
-  // }
 
   if (session !== null) {
     return (
-      <div className={flex({ height: "60px", gap: 8, padding: 4 })}>
-        <Link href="/" className={css({ alignSelf: "center" })}>
-          <Image
-            src="/dslogo.png"
-            width={100}
-            height={100}
-            alt="Dear Stranger Logo"
-            className={css({ p: 2 })}
-          ></Image>
-        </Link>
+      <div
+        className={flex({
+          justifyContent: "space-between",
+          alignItems: "center",
+        })}
+      >
+        <div className={flex({ width: "1/3", p: 6 })}>
+          <p>Logged in as: {session?.user?.email}</p>
+        </div>
 
-        <p>Logged in as: {session?.user?.email}</p>
+        <div className={flex({ width: "1/3", justifyContent: "center" })}>
+          <Link href="/">
+            <Image
+              src="/dslogo.png"
+              width={100}
+              height={100}
+              alt="Dear Stranger Logo"
+              className={css({
+                ml: "38px",
+                p: 2,
+                _hover: {
+                  filter: {
+                    base: "drop-shadow(0px 5px 10px rgba(0,0,0,0.25))",
+                    _dark: "drop-shadow(0px 5px 10px rgba(255,255,255,0.25))",
+                  },
+                  transition: "all ease 0.1s",
+                  transform: "scale(1.05)",
+                },
+              })}
+            ></Image>
+          </Link>
+        </div>
 
-        <div className={spacer()}></div>
-        
-        <div>
+        <div
+          className={flex({
+            width: "1/3",
+            justifyContent: "right",
+            pr: 6,
+            gap: 6,
+          })}
+        >
           <div className={css(signButton)}>
             <ColorModeButton></ColorModeButton>
           </div>
-        </div>
 
-        <Link href="/api/auth/signout">
-          <div className={css(signButton)}>LOG OUT</div>
-        </Link>
+          <Link href="/api/auth/signout">
+            <div className={css(signButton)}>LOG OUT</div>
+          </Link>
+        </div>
       </div>
     );
   } else {
     return (
       <div
         className={flex({
-          height: "60px",
-          gap: 8,
-          padding: 4,
+          justifyContent: "space-between",
+          alignItems: "center",
         })}
       >
-        <Link href="/" className={css({ alignSelf: "center" })}>
-          <Image
-            src="/dslogo.png"
-            width={100}
-            height={100}
-            alt="Dear Stranger Logo"
-            className={css({ p: 2 })}
-          ></Image>
-        </Link>
+        <div className={flex({ width: "1/3", p: 6 })}>
+          <Link href="/api/auth/signin">
+            <div className={css(signButton)}>SIGN IN / SIGN UP</div>
+          </Link>
+        </div>
 
-        <div className={spacer()}></div>
+        <div className={flex({ width: "1/3", justifyContent: "center" })}>
+          <Link href="/">
+            <Image
+              src="/dslogo.png"
+              width={100}
+              height={100}
+              alt="Dear Stranger Logo"
+              className={css({
+                ml: "38px",
+                p: 2,
+                _hover: {
+                  filter: {
+                    base: "drop-shadow(0px 5px 10px rgba(0,0,0,0.25))",
+                    _dark: "drop-shadow(0px 5px 10px rgba(255,255,255,0.25))",
+                  },
+                  transition: "all ease 0.1s",
+                  transform: "scale(1.05)",
+                },
+              })}
+            ></Image>
+          </Link>
+        </div>
 
-        <div>
+        <div
+          className={flex({
+            width: "1/3",
+            justifyContent: "right",
+            pr: 6,
+            gap: 6,
+          })}
+        >
           <div className={css(signButton)}>
             <ColorModeButton></ColorModeButton>
           </div>
         </div>
-
-        <Link href={"/api/auth/signin"}>
-          <div className={css(signButton)}>SIGN IN / SIGN UP</div>
-        </Link>
       </div>
     );
   }

@@ -17,11 +17,11 @@ export default function WriteRespondButton({
     width: "500px",
     background: "amber.300",
     transition: "-webkit-transform ease-in-out 0.1s",
-    fontFamily: "monospace",
-    fontWeight: "extralight",
+    color: "black",
     _hover: {
-      transform: "scale(1.01)",
-      boxShadow: "0 5px 10px 0 rgba(0,0,0,0.19)",
+      transform: "scale(1.02)",
+      transition: "all ease 0.3s",
+      boxShadow: {base:"0 10px 20px 0 rgba(0,0,0,0.25)",_dark:"0 10px 20px 0 rgba(255,255,255,0.25)"},
     },
   };
 

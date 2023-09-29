@@ -1,15 +1,19 @@
-'use client'
+"use client";
 
-import { useTheme } from 'next-themes'
+import { useTheme } from "next-themes";
 
+import { BiSun, BiMoon } from "react-icons/bi";
 
 export default function ColorModeButton() {
-
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
 
   return (
-    <button onClick={() => {
-      setTheme(theme === 'light' ? 'dark' : 'light')
-    }}>Change color mode</button>
-  )
+    <div
+      onClick={() => {
+        setTheme(theme === "light" ? "dark" : "light");
+      }}
+    >
+      {theme === "dark" ? <BiSun size={24}/> : <BiMoon size={24}/>}
+    </div>
+  );
 }

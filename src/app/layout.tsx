@@ -24,7 +24,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className + " " + css({background: {base: "white", _dark:"#121212"}})}>
+      <body className={inter.className + " " + css({background: {base: "white", _dark:"#161616"}})}>
         <Providers>
           <GoogleAnalytics />
           <SessionProvider>
