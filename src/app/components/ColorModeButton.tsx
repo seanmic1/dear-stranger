@@ -10,6 +10,6 @@ export default function ColorModeButton() {
   return (
     <button onClick={() => {
       setTheme(theme === 'light' ? 'dark' : 'light')
-    }}>Change color mode</button>
+    }}>Toggle Theme</button>
   )
 }

@@ -50,6 +50,7 @@ export default async function Navbar() {
         <Link href="/" className={css({ alignSelf: "center" })}>
           <Image
             src="/dslogo.png"
+
             width={100}
             height={100}
             alt="Dear Stranger Logo"
@@ -68,7 +69,7 @@ export default async function Navbar() {
         </div>
 
         <Link href="/api/auth/signout">
-          <div className={css(signButton)}>LOG OUT</div>
+          <div className={css(signButton)}>Log Out</div>
         </Link>
       </div>
     );

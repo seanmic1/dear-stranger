@@ -11,8 +11,8 @@ export default function HomePage() {
         height: "calc(100% - 60px)",
       })}
     >
-      <div className={center({ p: 10, width: "100%" })}>
-        <div className={stack({ direction: "column" })}>
+      <div className={center({ p: 10, width: "100%"})}>
+        <div className={stack({ direction: {base: "column", md:"row"}})}>
           <p className={center({ fontStyle: "italic", p:4 })}>
             Write anonymous letters and get replies from fellow strangers!
           </p>
