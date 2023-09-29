@@ -24,7 +24,7 @@ export default function HomePage() {
           direction: {base: "column", md:"row"},
           justify: "center",
           gap: { base: "10rem", md: "15%" },
-          mt: "4rem"
+          mt: "2rem"
         })}
       >
         <div className={center({})}>
