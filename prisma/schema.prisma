@@ -22,7 +22,6 @@ model Letter {
   letterContent       String
   responseAuthorEmail String?
   responseContent     String?
-  selectedCountry     String    @default("Anonymous")
   letterDate          DateTime  @default(now())
   responseDate        DateTime?
   letterAuthor        User      @relation("letterAuth", fields: [letterAuthorEmail], references: [email])

@@ -17,8 +17,6 @@ export default async function WriteLetter() {
     redirect("/api/auth/signin");
   }
 
-  let selectedCountry = "";
-
   async function submitLetter(formData: FormData) {
     "use server";
 
@@ -26,7 +24,13 @@ export default async function WriteLetter() {
       data: {
         letterAuthorEmail: String(session?.user?.email),
         letterContent: String(formData.get("content")),
-        // selectedCountry: String(selectedCountry), 
+      },
+    });
+
+    await prisma.user.update({
+      where: { email: String(session?.user?.email) },
+      data: {
+        country: String(formData.get("country")),
       },
     });
 

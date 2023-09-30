@@ -1,7 +1,7 @@
 "use client";
 
 import { css } from "../../../styled-system/css";
-import { flex } from "../../../styled-system/patterns";
+import { flex, stack, center, spacer } from "../../../styled-system/patterns";
 
 export default function TextAreaWithCounter({children}: {children?: string }) {
   const maximumCharacters = 900;
@@ -46,16 +46,21 @@ export default function TextAreaWithCounter({children}: {children?: string }) {
             color:"black"
           }
         })}
-      >
-      </textarea>
-      <div id="counter" className={flex({ justify: "end", gap: 2 })}>
-        <p id="character-counter" className={css({ textAlign: "right" })}>
-          Characters left:
-        </p>
-        <p id="typedchars" ref={node => {updateCharCount()}}></p>
-        <p>/</p>
-        <p>{maximumCharacters}</p>
+      ></textarea>
+        <div className={stack({ direction: "row", justify: "space-between"})}>
+          <div className={flex({ justify: "beginning", gap: 2 })}>
+            <p className={css({ textAlign: "left", height: "1.5rem",})}>Choose a country:&nbsp;</p>
+          </div>
+          <div className={spacer()}></div>
+          <div id="counter" className={flex({ justify: "end", gap: 2 })}>
+            <p id="character-counter" className={css({ textAlign: "right" })}>
+              Characters left:
+            </p>
+            <p id="typedchars" ref={node => {updateCharCount()}}></p>
+            <p>/</p>
+            <p>{maximumCharacters}</p>
+          </div>
+        </div>
       </div>
-    </div>
   );
 }
