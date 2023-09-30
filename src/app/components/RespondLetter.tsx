@@ -10,11 +10,13 @@ import options from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Button from "./Button";
-import { Letter, Prisma } from "@prisma/client";
+import { User, Letter, Prisma } from "@prisma/client";
 import Link from "next/link";
 import "@/lib/mailService"
 import { sendMail } from "@/lib/mailService";
 import TextAreaWithCounter from "./TextAreaWithCounter";
+import countryData from './countryData.json';
+import Image from 'next/image';
 
 export default async function RespondLetter() {
   const session = await getServerSession(options);
@@ -32,6 +34,7 @@ export default async function RespondLetter() {
   const hasLetter = sessionUser?.letterToRespond !== null;
 
   var randomLetter: Letter;
+  var letterAuthor: User;
 
   if (hasLetter) {
     // get assigned letter
@@ -655,7 +658,22 @@ export default async function RespondLetter() {
       redirect("respondletter/fail");
     }
   }
+  type CountryData = { [code: string]: string };
+  letterAuthor = (await prisma.user.findUnique({
+    where: { email: randomLetter?.letterAuthorEmail },
+  })) as User;
+  const countryCode = Object.keys(countryData as CountryData).find(
+    (code) => (countryData as CountryData)[code] === letterAuthor.country
+  ) || '';
 
+  let countryUrl = ""
+  if (!countryCode){
+    countryUrl = "Anonymous Country"
+  }
+  else {
+    countryUrl = `https://flagsapi.com/${countryCode}/flat/64.png`
+  }
+  
   return (
     <div className={container({ maxW: "8xl" })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
@@ -679,6 +697,12 @@ export default async function RespondLetter() {
             }
           })}
         >
+        <Image
+        src={countryUrl}
+        alt={letterAuthor.country}
+        width={64}
+        height={64}
+        />
           {randomLetter?.letterContent}
         </p>
 
