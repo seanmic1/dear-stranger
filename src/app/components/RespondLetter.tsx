@@ -677,7 +677,13 @@ export default async function RespondLetter() {
   return (
     <div className={container({ maxW: "8xl" })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
-        Respond to a letter
+        Respond to a letter from:
+        <Image
+        src={countryUrl}
+        alt={letterAuthor.country}
+        width={64}
+        height={64}
+        />
       </p>
       <div className={stack({ direction: {base:"column",md:"row"}, justifyContent: "center" })}>
         <p
@@ -697,12 +703,7 @@ export default async function RespondLetter() {
             }
           })}
         >
-        <Image
-        src={countryUrl}
-        alt={letterAuthor.country}
-        width={64}
-        height={64}
-        />
+
           {randomLetter?.letterContent}
         </p>
 
