@@ -666,13 +666,7 @@ export default async function RespondLetter() {
     (code) => (countryData as CountryData)[code] === letterAuthor.country
   ) || '';
 
-  let countryUrl = ""
-  if (!countryCode){
-    countryUrl = "Anonymous Country"
-  }
-  else {
-    countryUrl = `https://flagsapi.com/${countryCode}/flat/64.png`
-  }
+  const countryUrl = `https://flagsapi.com/${countryCode}/flat/64.png`
   
   return (
     <div className={container({ maxW: "8xl" })}>
