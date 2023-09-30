@@ -15,7 +15,6 @@ export default function TextAreaWithCounter() {
           countrySelect.addEventListener("change", handleCountryChange);
         }
     
-        // Clean up the event listener when the component unmounts
         return () => {
           if (countrySelect) {
             countrySelect.removeEventListener("change", handleCountryChange);
@@ -23,7 +22,7 @@ export default function TextAreaWithCounter() {
         };
       }, []);
 
-    function handleCountryChange(event: Event) { // Change the event type to Event
+    function handleCountryChange(event: Event) { 
         const target = event.target as HTMLSelectElement;
         setSelectedCountry(target.value);
     }
