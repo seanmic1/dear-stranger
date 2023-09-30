@@ -63,6 +63,7 @@ export default async function ReadResponseID({
               _focus: {
                 outline: "none",
               },
+              color: "black"
             })}
           >
             {letter.letterContent}
@@ -81,6 +82,7 @@ export default async function ReadResponseID({
               _focus: {
                 outline: "none",
               },
+              color: "black"
             })}
           >
             {letter.responseContent}

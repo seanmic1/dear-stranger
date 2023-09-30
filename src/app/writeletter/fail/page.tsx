@@ -26,6 +26,7 @@ export default function writeSuccess() {
             _hover: {
               border: "2px solid black",
             },
+            color: "black",
           })}
         >
           Back to home
