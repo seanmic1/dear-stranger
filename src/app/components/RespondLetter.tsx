@@ -67,25 +67,27 @@ export default async function RespondLetter() {
       });
     } else {
       return (
-        <div className={center({height: "calc(100% - 60px)", flexDirection:"column"})}>
-          <p className={css({ fontSize: "3xl", textAlign: "center" })}>
+        <div className={center({flexDirection:"column"})}>
+          <p className={css({ fontSize: "3xl", textAlign: "center", mt:"10rem" })}>
             There are no letters to respond to at the moment. <br></br> Please
             try again later!
           </p>
           <Link href="/">
             <div
-              className={center({
-                mt: "10",
+              className={css({
+                mt:"5rem",
                 padding: "2",
                 rounded: "md",
-                background: "blue.400",
-                border: "2px solid transparent",
+                background: "amber.300",
+                border: "2px solid black",
                 boxSizing: "border-box",
                 _hover: {
-                  border: "2px solid black",
-                },
-                _active: {
-                  bg: "gray.500",
+                  transform: "scale(1.01)",
+                  boxShadow: {
+                    base: "0 5px 10px 0 rgba(0,0,0,0.19)",
+                    _dark: "0 5px 10px 0 rgba(255,255,255,0.19)",
+                  },
+                  transition: "all ease 0.1s",
                 },
               })}
             >

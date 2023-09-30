@@ -3,7 +3,7 @@
 import { css } from "../../../styled-system/css";
 import { flex } from "../../../styled-system/patterns";
 
-export default function TextAreaWithCounter() {
+export default function TextAreaWithCounter({children}: {children?: string }) {
   const maximumCharacters = 900;
 
   function updateCharCount() {
@@ -27,9 +27,9 @@ export default function TextAreaWithCounter() {
       <textarea
         onKeyUp={updateCharCount}
         required
+        defaultValue={children}
         id="textarea"
         name="content"
-        defaultValue={"Dear Stranger,\n\n"}
         maxLength={maximumCharacters}
         className={css({
           background: "amber.300",
@@ -46,7 +46,8 @@ export default function TextAreaWithCounter() {
             color:"black"
           }
         })}
-      ></textarea>
+      >
+      </textarea>
       <div id="counter" className={flex({ justify: "end", gap: 2 })}>
         <p id="character-counter" className={css({ textAlign: "right" })}>
           Characters left:
