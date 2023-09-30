@@ -53,6 +53,7 @@ export default async function Navbar() {
           })}
         >
           <p>Logged in as: {session?.user?.email}</p>
+
         </div>
 
         <MobileNav></MobileNav>
@@ -87,7 +88,10 @@ export default async function Navbar() {
             pr: 6,
             gap: 6,
           })}
-        >
+        >          
+        <Link href="/viewletters">
+          <div className={css(signButton)}>View Letters</div>
+        </Link>
           <div className={css(signButton)}>
             <ColorModeButton></ColorModeButton>
           </div>
@@ -95,6 +99,7 @@ export default async function Navbar() {
           <Link href="/api/auth/signout">
             <div className={css(signButton)}>Log Out</div>
           </Link>
+
         </div>
       </div>
     );
@@ -108,7 +113,7 @@ export default async function Navbar() {
       >
         <div className={flex({ width: "1/3", p: 6, textAlign: "center" })}>
           <Link href="/api/auth/signin">
-            <div className={css(signButton)}>SIGN IN / SIGN UP</div>
+            <div className={css(signButton)}>Sign In / Sign Up</div>
           </Link>
           <MobileNav></MobileNav>
         </div>
