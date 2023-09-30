@@ -1,5 +1,3 @@
-"use clint"
-
 import { FormEvent } from "react";
 import { css } from "../../../styled-system/css";
 import {
@@ -20,16 +18,23 @@ import LetterViewButton from "./LetterViewButton";
 import Link from "next/link";
 
 export default function DeleteButton() {
-  const signButton: SystemStyleObject = {
-    border: "2px solid black",
-    color: "black",
+  const signButton = {
+    color: "white",
     p: 2,
     fontSize: { base: "0.75rem", md: "1rem" },
     rounded: "sm",
-    background: { base: "amber.300", _dark: "amber.300" },
+    background: "red",
     display: {base: "none", md:"block"},
     zIndex: 2,
-    alignSelf: "end"
+    alignSelf: "end",
+    _hover: {
+        transform: "scale(1.01)",
+        boxShadow: {
+          base: "0 5px 10px 0 rgba(0,0,0,0.19)",
+          _dark: "0 5px 10px 0 rgba(255,255,255,0.19)",
+        },
+        transition: "all ease 0.1s",
+      },
   };
 
   return (
