@@ -13,15 +13,24 @@ export default function WriteRespondButton({
 
   const buttonStyle: CenterStyles = {
     position: "relative",
-    height: "300px",
-    width: "500px",
     background: "amber.300",
     transition: "-webkit-transform ease-in-out 0.1s",
     color: "black",
     _hover: {
       transform: "scale(1.02)",
       transition: "all ease 0.3s",
-      boxShadow: {base:"0 10px 20px 0 rgba(0,0,0,0.25)",_dark:"0 10px 20px 0 rgba(255,255,255,0.25)"},
+      boxShadow: {
+        base: "0 10px 20px 0 rgba(0,0,0,0.25)",
+        _dark: "0 10px 20px 0 rgba(255,255,255,0.25)",
+      },
+    },
+    base: {
+      height: "12em",
+      width: "20em",
+    },
+    md: {
+      height: "300px",
+      width: "500px",
     },
   };
 
@@ -38,9 +47,16 @@ export default function WriteRespondButton({
           className={css({
             zIndex: 5,
             position: "absolute",
-            borderTop: "160px solid #ffbc31",
-            borderLeft: "250px solid transparent",
-            borderRight: "250px solid transparent",
+            base: {
+              borderTop: "6em solid #ffbc31",
+              borderLeft: "10em solid transparent",
+              borderRight: "10em solid transparent",
+            },
+            md: {
+              borderTop: "160px solid #ffbc31",
+              borderLeft: "250px solid transparent",
+              borderRight: "250px solid transparent",
+            },
             height: 0,
             width: 0,
             top: 0,
@@ -54,9 +70,16 @@ export default function WriteRespondButton({
         <div
           className={css({
             position: "absolute",
-            borderTop: "160px solid #edb135",
-            borderLeft: "250px solid transparent",
-            borderRight: "250px solid transparent",
+            base: {
+              borderTop: "6em solid #ffbc31",
+              borderLeft: "10em solid transparent",
+              borderRight: "10em solid transparent",
+            },
+            md: {
+              borderTop: "160px solid #ffbc31",
+              borderLeft: "250px solid transparent",
+              borderRight: "250px solid transparent",
+            },
             height: 0,
             width: 0,
             top: 0,

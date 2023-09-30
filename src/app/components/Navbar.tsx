@@ -12,14 +12,17 @@ import { SystemStyleObject } from "@pandacss/dev";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import ColorModeButton from "./ColorModeButton";
+import { GiHamburgerMenu } from "react-icons/gi";
+import MobileNav from "./MobileNav";
 
 export default async function Navbar() {
   const session = await getServerSession(options);
 
   const signButton: SystemStyleObject = {
-    border: {base:"2px solid black",_dark:"2px solid white"},
+    border: { base: "2px solid black", _dark: "2px solid white" },
     color: "black",
     p: 2,
+    fontSize: { base: "0.75rem", md: "1rem" },
     rounded: "sm",
     _hover: {
       transform: "scale(1.01)",
@@ -30,6 +33,7 @@ export default async function Navbar() {
       transition: "all ease 0.1s",
     },
     background: { base: "amber.300", _dark: "amber.300" },
+    display: {base: "none", md:"block"}
   };
 
   if (session !== null) {
@@ -40,9 +44,18 @@ export default async function Navbar() {
           alignItems: "center",
         })}
       >
-        <div className={flex({ width: "1/3", p: 6 })}>
+        <div
+          className={flex({
+            position: { base: "absolute", md: "relative" },
+            display: { base: "none", md: "block" },
+            width: "1/3",
+            p: 6,
+          })}
+        >
           <p>Logged in as: {session?.user?.email}</p>
         </div>
+
+        <MobileNav></MobileNav>
 
         <div className={flex({ width: "1/3", justifyContent: "center" })}>
           <Link href="/">
@@ -93,10 +106,11 @@ export default async function Navbar() {
           alignItems: "center",
         })}
       >
-        <div className={flex({ width: "1/3", p: 6 })}>
+        <div className={flex({ width: "1/3", p: 6, textAlign: "center" })}>
           <Link href="/api/auth/signin">
             <div className={css(signButton)}>SIGN IN / SIGN UP</div>
           </Link>
+          <MobileNav></MobileNav>
         </div>
 
         <div className={flex({ width: "1/3", justifyContent: "center" })}>
