@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Button from "./Button";
 import TextAreaWithCounter from "./TextAreaWithCounter";
+import CountrySelect from "./CountrySelect";
 
 export default async function WriteLetter() {
   const session = await getServerSession(options);
@@ -23,6 +24,13 @@ export default async function WriteLetter() {
       data: {
         letterAuthorEmail: String(session?.user?.email),
         letterContent: String(formData.get("content")),
+      },
+    });
+
+    await prisma.user.update({
+      where: { email: String(session?.user?.email) },
+      data: {
+        country: String(formData.get("country")),
       },
     });
 
@@ -93,6 +101,7 @@ export default async function WriteLetter() {
           {"Dear stranger,\n\n"}
         </TextAreaWithCounter>
         <div className={flex({ justifyContent: "space-between" })}>
+          <CountrySelect></CountrySelect>
           <Button></Button>
         </div>
       </form>
