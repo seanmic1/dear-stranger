@@ -71,11 +71,11 @@ export default function MobileNav() {
           </p>
         </div>
         <div className={stack({ padding: 4, direction: "column" })}>
-          {MenuItems.map((menuItem) => (
-            <Link href={menuItem.link}>
-              <p>{menuItem.text}</p>
-            </Link>
-          ))}
+            {MenuItems.map((menuItem, index) => (
+          <Link key={index} href={menuItem.link}>
+            <p>{menuItem.text}</p>
+          </Link>
+        ))}
         </div>
       </div>
     </nav>
