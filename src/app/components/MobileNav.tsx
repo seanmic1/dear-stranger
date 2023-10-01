@@ -59,21 +59,21 @@ export default function MobileNav() {
           },
         })}
       >
-        <div className={flex({ justifyContent: "space-between", p: 4 })}>
+        <div className={flex({ justifyContent: "space-between", p: 4, color: "black" })}>
           <ColorModeButton></ColorModeButton>
           <div onClick={toggleMenu}>
             <AiOutlineClose size={24}></AiOutlineClose>
           </div>
         </div>
         <div className={css({ padding: 4 })}>
-          <p>
+          <p className={css({color: "black"})}>
             Logged in as: <br></br> {session.data?.user?.email}
           </p>
         </div>
         <div className={stack({ padding: 4, direction: "column" })}>
             {MenuItems.map((menuItem, index) => (
           <Link key={index} href={menuItem.link}>
-            <p>{menuItem.text}</p>
+            <p className={css({color: "black"})}>{menuItem.text}</p>
           </Link>
         ))}
         </div>
