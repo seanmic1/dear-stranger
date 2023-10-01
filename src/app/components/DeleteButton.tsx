@@ -21,10 +21,12 @@ export default function DeleteButton() {
   const signButton = {
     color: "white",
     p: 2,
-    fontSize: { base: "0.75rem", md: "1rem" },
+    fontSize: {base: "0.8rem", md:"1rem"},
     rounded: "sm",
     background: "red",
-    display: {base: "none", md:"block"},
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     zIndex: 2,
     textAlign: "center",
     alignSelf: "end",
@@ -37,13 +39,14 @@ export default function DeleteButton() {
         transition: "all ease 0.1s",
       },
     base: {
-        height: "2rem", 
-        width: "5rem",  
+        height: "3rem", 
+        width: "3.24rem",  
     },
     md: {
-        height: "40px", 
-        width: "65px", 
+        height: "60px",
+        width: "65px",
     },
+    border: {base:"2px solid black", _dark:"2px solid white"},
   };
 
   return (

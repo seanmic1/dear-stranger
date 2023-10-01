@@ -35,30 +35,43 @@ export default async function ViewLetters() {
     },
   });
 
-  async function deleteLetter(letterId: number) {
+  async function deleteLetter(formData: FormData) {
+    "use server";
     await prisma.letter.delete({
         where: {
-          id: letterId,
+          id: parseInt(String(formData.get("id"))),
         },
       });
     }
 
-  function formatDate(dateString: string): string {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    };
-  
-    const formattedDate: string = new Date(dateString).toLocaleDateString(
-      "en-US",
-      options
-    );
-    return formattedDate;
-  }
+    function formatDate(dateString: string): string {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'long' });
+      const year = date.getFullYear();
+      const hour = date.getHours();
+      const minute = date.getMinutes();
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+    
+      function getDaySuffix(day: number): string {
+        if (day >= 11 && day <= 13) {
+          return 'th';
+        }
+        switch (day % 10) {
+          case 1:
+            return 'st';
+          case 2:
+            return 'nd';
+          case 3:
+            return 'rd';
+          default:
+            return 'th';
+        }
+      }
+    
+      const formattedDate = `${day}${getDaySuffix(day)} ${month} ${year}, at ${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
+      return formattedDate;
+    }
   
   if (!letters.length) {
     return (
@@ -73,7 +86,7 @@ export default async function ViewLetters() {
           justifyContent: "center",
         })}>
           <div className={stack({ direction: "column" })}>
-            <p className={center({ fontSize: "1rem", p: 4, textAlign: "center" })}>
+            <p className={center({ fontSize: {base: "0.5rem", md:"1rem"}, p: 4, textAlign: "center" })}>
               No letters found.&nbsp;<Link href={"/writeletter"}>
               <span className={css({ color: "blue", _dark: { color: "darkcyan" } })}>
                 Write one now?
@@ -86,31 +99,29 @@ export default async function ViewLetters() {
     );
   } else {
     return (
-      <div className={container({ maxW: "4xl" })}>
+<div className={container({ maxW: "4xl" })}>
   <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
     View Letters
   </p>
   <div className={css({
     display: "grid",
-    gridTemplateColumns: {
-      base: "1fr",
-      md: "repeat(auto-fill, minmax(400px, 1fr))", 
-    },
     gap: "2rem",
     justifyContent: "center",
   })}>
     {letters.map((letter) => (
       <div key={letter.id} className={css({ display: "flex", alignItems: "center", justifyContent: "space-between" })}>
-        <div>
+        <div className={css({ marginRight: "1rem", flex: 1 })}>
           <LetterDetails>
-            <p className={css({ fontSize: "1rem", textAlign: "left" })}>Letter #{letter.id}</p>
-            <p className={css({ fontSize: "1rem", textAlign: "left" })}>{formatDate(String(letter.letterDate))}</p>
+            <p className={css({ fontSize: {base: "0.8rem", md:"1rem"}, textAlign: "left" })}>Letter #{letter.id}</p>
+            <p className={css({ fontSize: {base: "0.8rem", md:"1rem"}, textAlign: "left" })}>Sent on {formatDate(String(letter.letterDate))}</p>
           </LetterDetails>
         </div>
-        <div className={css({ display: "flex", flexDirection: "column", alignItems: "center" })}>
+        <div className={css({ marginRight: "1rem" })}>
           <Link href={`/readresponse/${letter.id}`}>
             <ViewButton></ViewButton>
           </Link>
+        </div>
+        <div>
           <DeleteButton></DeleteButton>
         </div>
       </div>

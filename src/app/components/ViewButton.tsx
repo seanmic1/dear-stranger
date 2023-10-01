@@ -18,33 +18,37 @@ import LetterViewButton from "./LetterDetails";
 import Link from "next/link";
 
 export default function ViewButton() {
-  const signButton = {
-    color: "black",
-    p: 2,
-    fontSize: { base: "0.75rem", md: "1rem" },
-    rounded: "sm",
-    background: "amber.300",
-    display: {base: "none", md:"block"},
-    zIndex: 2,
-    textAlign: "center",
-    alignSelf: "end",
-    _hover: {
-        transform: "scale(1.01)",
-        boxShadow: {
-          base: "0 5px 10px 0 rgba(0,0,0,0.19)",
-          _dark: "0 5px 10px 0 rgba(255,255,255,0.19)",
+    const signButton = {
+        color: "black",
+        p: 2,
+        fontSize: {base: "0.8rem", md:"1rem"},
+        rounded: "sm",
+        background: "amber.300",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 2,
+        textAlign: "center",
+        alignSelf: "end",
+        _hover: {
+          transform: "scale(1.01)",
+          boxShadow: {
+            base: "0 5px 10px 0 rgba(0,0,0,0.19)",
+            _dark: "0 5px 10px 0 rgba(255,255,255,0.19)",
+          },
+          transition: "all ease 0.1s",
         },
-        transition: "all ease 0.1s",
-      },
-    base: {
-        height: "2rem", 
-        width: "5rem",  
-    },
-    md: {
-        height: "40px", 
-        width: "65px", 
-    },
-  };
+        base: {
+            height: "3rem", 
+            width: "3.24rem",  
+        },
+        md: {
+          height: "60px",
+          width: "65px",
+        },
+        border: {base:"2px solid black", _dark:"2px solid white"},
+      };
+      
 
   return (
     <div className={css(signButton)}>

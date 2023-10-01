@@ -15,22 +15,34 @@ export default function LetterDetails({
     color: "black",
     rounded: "sm",
     base: {
-        height: "4rem", 
-        width: "16rem",  
-      },
-      md: {
-        height: "80px", 
-        width: "320px", 
-      },
+      height: "3rem",
+      width: "18rem",
+    },
+    md: {
+      height: "60px",
+      width: "360px",
+    },
+    border: {base:"2px solid black", _dark:"2px solid white"},
   };
+
+  const baseStyles = css({
+    zIndex: "10",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    base: {
+      flexDirection: "column",
+      textAlign: "center",
+    },
+  });
 
   return (
     <div className="group">
       <div className={center(buttonStyle)}>
-        <div className={css({ zIndex: "10", mt: "1rem", fontSize: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" })}>
+        <div className={baseStyles}>
           <div style={{ paddingRight: "1rem" }}>{children}</div>
         </div>
       </div>
     </div>
-  );  
-}  
+  );
+}
