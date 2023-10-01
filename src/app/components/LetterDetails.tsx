@@ -1,16 +1,12 @@
-"use client";
-
 import { css } from "../../../styled-system/css";
 import { CenterStyles, center } from "../../../styled-system/patterns";
 import { useRef, useEffect } from "react";
-import DeleteButton from "./DeleteButton";
 
-export default function WriteRespondButton({
+export default function LetterDetails({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const ref = useRef(null);
 
   const buttonStyle: CenterStyles = {
     position: "relative",
@@ -27,27 +23,20 @@ export default function WriteRespondButton({
       },
     },
     base: {
-        height: "8em", 
-        width: "16em",  
+        height: "6rem", 
+        width: "15rem",  
       },
       md: {
-        height: "120px", 
-        width: "400px", 
+        height: "80px", 
+        width: "330px", 
       },
   };
-
-  function changeToLoading() {
-    const element: HTMLDivElement = ref.current as unknown as HTMLDivElement;
-    element.style.pointerEvents = "none";
-    element.textContent = "Loading...";
-  }
 
   return (
     <div className="group">
       <div className={center(buttonStyle)}>
-        <div ref={ref} className={css({ zIndex: "10", mt: "1rem", fontSize: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" })}>
+        <div className={css({ zIndex: "10", mt: "1rem", fontSize: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" })}>
           <div style={{ paddingRight: "1rem" }}>{children}</div>
-          <div className={css({ fontSize: "1rem" })}><DeleteButton></DeleteButton></div>
         </div>
       </div>
     </div>

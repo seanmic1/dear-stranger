@@ -14,7 +14,7 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Button from "./Button";
 import { User, Letter, Prisma } from "@prisma/client";
-import LetterViewButton from "./LetterViewButton";
+import LetterDetails from "./LetterDetails";
 import Link from "next/link";
 import DeleteButton from "./DeleteButton";
 
@@ -99,10 +99,10 @@ export default async function ViewLetters() {
           <div key={letter.id} className={css({ display: "flex", alignItems: "center", justifyContent: "space-between" })}>
             <div>
               <Link href={`/readresponse/${letter.id}`}>
-                <LetterViewButton>
+                <LetterDetails>
                   <p className={css({ fontSize: "1rem", textAlign: "left" })}>Letter #{letter.id}</p>
                   <p className={css({ fontSize: "1rem", textAlign: "left" })}>{formatDate(String(letter.letterDate))}</p>
-                </LetterViewButton>
+                </LetterDetails>
               </Link>
             </div>
           </div>

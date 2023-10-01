@@ -17,13 +17,13 @@ import { User, Letter, Prisma } from "@prisma/client";
 import LetterViewButton from "./LetterDetails";
 import Link from "next/link";
 
-export default function DeleteButton() {
+export default function ViewButton() {
   const signButton = {
-    color: "white",
+    color: "black",
     p: 2,
     fontSize: { base: "0.75rem", md: "1rem" },
     rounded: "sm",
-    background: "red",
+    background: "amber.300",
     display: {base: "none", md:"block"},
     zIndex: 2,
     alignSelf: "end",
@@ -39,7 +39,7 @@ export default function DeleteButton() {
 
   return (
     <div className={css(signButton)}>
-      Delete
+      View
     </div>
   );
 }
