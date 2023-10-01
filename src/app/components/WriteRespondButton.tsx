@@ -71,12 +71,12 @@ export default function WriteRespondButton({
           className={css({
             position: "absolute",
             base: {
-              borderTop: "6em solid #ffbc31",
+              borderTop: "6em solid #e5a92c",
               borderLeft: "10em solid transparent",
               borderRight: "10em solid transparent",
             },
             md: {
-              borderTop: "160px solid #ffbc31",
+              borderTop: "160px solid #e5a92c",
               borderLeft: "250px solid transparent",
               borderRight: "250px solid transparent",
             },
