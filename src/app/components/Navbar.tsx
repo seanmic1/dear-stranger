@@ -65,7 +65,7 @@ export default async function Navbar() {
               height={100}
               alt="Dear Stranger Logo"
               className={css({
-                ml: "38px",
+                ml: "20px",
                 p: 2,
                 _hover: {
                   filter: {
@@ -121,7 +121,7 @@ export default async function Navbar() {
               height={100}
               alt="Dear Stranger Logo"
               className={css({
-                ml: "38px",
+                ml: "20px",
                 p: 2,
                 _hover: {
                   filter: {

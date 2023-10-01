@@ -18,16 +18,52 @@ export default function MobileNav() {
     setIsShown((current) => !current);
   };
 
-  const MenuItems: MenuItem[] = [
-    // {
-    //   text: "View Letters (WIP)",
-    //   link: "/viewletters",
-    // },
-    {
-      text: "Log out",
-      link: "/api/auth/signout",
-    },
-  ];
+  if (session.status === "unauthenticated") {
+    return (
+      <nav
+      className={css({
+        width: "1/4",
+        pl: "2em",
+        base: { position: "relative", display: "block" },
+        md: { position: "absolute", display: "none" },
+      })}
+    >
+      <div onClick={toggleMenu}>
+        <GiHamburgerMenu size={30}></GiHamburgerMenu>
+      </div>
+
+      <div
+        aria-expanded={isShown}
+        className={css({
+          position: "fixed",
+          left: "-100%",
+          top: 0,
+          bottom: 0,
+          right: "100%",
+          background: "amber.300",
+          zIndex: "100",
+          transition: "all ease 0.3s",
+          _expanded: {
+            left: 0,
+            right: "25%",
+          },
+        })}
+      >
+        <div className={flex({ justifyContent: "space-between", p: 4 })}>
+          <ColorModeButton></ColorModeButton>
+          <div onClick={toggleMenu}>
+            <AiOutlineClose size={24}></AiOutlineClose>
+          </div>
+        </div>
+        <div className={stack({ padding: 4, direction: "column" })}>
+          <Link href="/api/auth/signin" className={css()}>
+            <p>Sign in / Sign up</p>
+          </Link>
+        </div>
+      </div>
+    </nav>
+    )
+  } 
 
   return (
     <nav
@@ -71,18 +107,11 @@ export default function MobileNav() {
           </p>
         </div>
         <div className={stack({ padding: 4, direction: "column" })}>
-          {MenuItems.map((menuItem) => (
-            <Link href={menuItem.link}>
-              <p>{menuItem.text}</p>
-            </Link>
-          ))}
+          <Link href="/api/auth/signout" className={css()}>
+            <p>Sign out</p>
+          </Link>
         </div>
       </div>
     </nav>
   );
-}
-
-interface MenuItem {
-  text: string;
-  link: string;
 }
