@@ -14,21 +14,13 @@ export default function LetterDetails({
     transition: "-webkit-transform ease-in-out 0.1s",
     color: "black",
     rounded: "sm",
-    _hover: {
-      transform: "scale(1.02)",
-      transition: "all ease 0.3s",
-      boxShadow: {
-        base: "0 10px 20px 0 rgba(0,0,0,0.25)",
-        _dark: "0 10px 20px 0 rgba(255,255,255,0.25)",
-      },
-    },
     base: {
-        height: "6rem", 
-        width: "15rem",  
+        height: "4rem", 
+        width: "16rem",  
       },
       md: {
         height: "80px", 
-        width: "330px", 
+        width: "320px", 
       },
   };
 

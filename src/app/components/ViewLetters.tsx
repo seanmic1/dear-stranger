@@ -17,6 +17,7 @@ import { User, Letter, Prisma } from "@prisma/client";
 import LetterDetails from "./LetterDetails";
 import Link from "next/link";
 import DeleteButton from "./DeleteButton";
+import ViewButton from "./ViewButton";
 
 export default async function ViewLetters() {
     const session = await getServerSession(options);
@@ -86,29 +87,37 @@ export default async function ViewLetters() {
   } else {
     return (
       <div className={container({ maxW: "4xl" })}>
-        <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
-          View Letters
-        </p>
-        <div className={css({
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
-          gap: "2rem",
-          justifyContent: "center",
-        })}>
-        {letters.map((letter) => (
-          <div key={letter.id} className={css({ display: "flex", alignItems: "center", justifyContent: "space-between" })}>
-            <div>
-              <Link href={`/readresponse/${letter.id}`}>
-                <LetterDetails>
-                  <p className={css({ fontSize: "1rem", textAlign: "left" })}>Letter #{letter.id}</p>
-                  <p className={css({ fontSize: "1rem", textAlign: "left" })}>{formatDate(String(letter.letterDate))}</p>
-                </LetterDetails>
-              </Link>
-            </div>
-          </div>
-        ))}
+  <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
+    View Letters
+  </p>
+  <div className={css({
+    display: "grid",
+    gridTemplateColumns: {
+      base: "1fr",
+      md: "repeat(auto-fill, minmax(400px, 1fr))", 
+    },
+    gap: "2rem",
+    justifyContent: "center",
+  })}>
+    {letters.map((letter) => (
+      <div key={letter.id} className={css({ display: "flex", alignItems: "center", justifyContent: "space-between" })}>
+        <div>
+          <LetterDetails>
+            <p className={css({ fontSize: "1rem", textAlign: "left" })}>Letter #{letter.id}</p>
+            <p className={css({ fontSize: "1rem", textAlign: "left" })}>{formatDate(String(letter.letterDate))}</p>
+          </LetterDetails>
+        </div>
+        <div className={css({ display: "flex", flexDirection: "column", alignItems: "center" })}>
+          <Link href={`/readresponse/${letter.id}`}>
+            <ViewButton></ViewButton>
+          </Link>
+          <DeleteButton></DeleteButton>
+        </div>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
     );
   }
 }  

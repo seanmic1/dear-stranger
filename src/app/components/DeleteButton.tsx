@@ -26,6 +26,7 @@ export default function DeleteButton() {
     background: "red",
     display: {base: "none", md:"block"},
     zIndex: 2,
+    textAlign: "center",
     alignSelf: "end",
     _hover: {
         transform: "scale(1.01)",
@@ -35,6 +36,14 @@ export default function DeleteButton() {
         },
         transition: "all ease 0.1s",
       },
+    base: {
+        height: "2rem", 
+        width: "5rem",  
+    },
+    md: {
+        height: "40px", 
+        width: "65px", 
+    },
   };
 
   return (
