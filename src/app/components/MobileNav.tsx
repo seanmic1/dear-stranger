@@ -19,10 +19,10 @@ export default function MobileNav() {
   };
 
   const MenuItems: MenuItem[] = [
-    // {
-    //   text: "View Letters (WIP)",
-    //   link: "/viewletters",
-    // },
+    {
+      text: "View Letters",
+      link: "/viewletters",
+    },
     {
       text: "Log out",
       link: "/api/auth/signout",
