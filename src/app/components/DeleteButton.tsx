@@ -1,21 +1,10 @@
-import { FormEvent } from "react";
+"use client"
+
 import { css } from "../../../styled-system/css";
-import {
-  container,
-  flex,
-  stack,
-  spacer,
-  center
-} from "../../../styled-system/patterns";
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import options from "@/app/api/auth/[...nextauth]/options";
-import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
-import Button from "./Button";
-import { User, Letter, Prisma } from "@prisma/client";
-import LetterViewButton from "./LetterDetails";
-import Link from "next/link";
+
+export function confirmDelete() {
+  return confirm("Are you sure you want to delete? (This can not be undone)")
+}
 
 export default function DeleteButton() {
   const signButton = {
@@ -49,9 +38,10 @@ export default function DeleteButton() {
     border: {base:"2px solid black", _dark:"2px solid white"},
   };
 
+
   return (
-    <div className={css(signButton)}>
+    <button type="submit" className={css(signButton)}>
       Delete
-    </div>
+    </button>
   );
 }
