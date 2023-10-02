@@ -264,7 +264,7 @@ export default async function ReadResponseID({
             >
               {letter.responseContent !== null
                 ? letter.responseContent
-                : "No response yet"}
+                : "(No response yet)"}
             </p>
             {responder !== null ? <ReportButton></ReportButton> : <></>}
           </form>

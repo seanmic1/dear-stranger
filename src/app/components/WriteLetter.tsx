@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import options from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import Button from "./Button";
+import Button, { handleSubmit } from "./Button";
 import TextAreaWithCounter from "./TextAreaWithCounter";
 import CountrySelect from "./CountrySelect";
 
@@ -96,7 +96,7 @@ export default async function WriteLetter() {
       <p className={css({ fontSize: "sm", color:"darkgray", textAlign: "center", fontStyle:"italic", pb:2})}>
         {await randomSuggestion()}
       </p>
-      <form id="letterForm" action={submitLetter}>
+      <form id="letterForm" action={submitLetter} onSubmit={handleSubmit}>
         <TextAreaWithCounter>
           {"Dear stranger,\n\n"}
         </TextAreaWithCounter>

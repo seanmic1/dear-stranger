@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth";
 import options from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import Button from "./Button";
+import Button, { handleSubmit } from "./Button";
 import { User, Letter, Prisma } from "@prisma/client";
 import Link from "next/link";
 import "@/lib/mailService";
@@ -43,6 +43,7 @@ async function reportLetter(formData: FormData) {
   const updatedLetter = await prisma.letter.update({
     where: { id: Number(formData.get("letterId")) },
     data: {
+      responseAuthor: {disconnect: true},
       letterIsSpam: true,
     },
   });
