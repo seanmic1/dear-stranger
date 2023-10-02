@@ -9,6 +9,7 @@ import GoogleAnalytics from "./components/GoogleAnalytics";
 import Providers from "./components/providers"
 
 import type { Metadata } from "next";
+import Footer from "./components/Footer";
 export const metadata: Metadata = {
   title: "Dear Stranger Home",
   description: "Dear Stranger - write anonymous letters",
@@ -30,6 +31,7 @@ export default async function RootLayout({
           <SessionProvider>
             <Navbar></Navbar>
             {children}
+            <Footer></Footer>
           </SessionProvider>
         </Providers>
       </body>
