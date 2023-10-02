@@ -244,7 +244,7 @@ export default async function ReadResponseID({
               </div>
             ) : (
               <div className={css({ height: "32px", fontStyle: "italic" })}>
-                It's quiet around here...
+                It&apos;s quiet around here...
               </div>
             )}
             <p
