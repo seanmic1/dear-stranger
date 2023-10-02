@@ -1,54 +1,36 @@
-"use client";
-
+import { getServerSession } from "next-auth";
 import { css } from "../../../styled-system/css";
-import { flex } from "../../../styled-system/patterns";
-import { useEffect, useState } from "react";
-import countryData from './countryData.json';
+import countryData from "./countryData.json";
+import prisma from "@/lib/prisma";
 
-export default function TextAreaWithCounter() {
-    const [selectedCountry, setSelectedCountry] = useState("");
+export default async function TextAreaWithCounter() {
 
-    useEffect(() => {
-        const countrySelect = document.getElementById("country") as HTMLSelectElement;
-    
-        if (countrySelect) {
-          countrySelect.addEventListener("change", handleCountryChange);
-        }
-    
-        return () => {
-          if (countrySelect) {
-            countrySelect.removeEventListener("change", handleCountryChange);
-          }
-        };
-      }, []);
+  const session = await getServerSession()
 
-    function handleCountryChange(event: Event) { 
-        const target = event.target as HTMLSelectElement;
-        setSelectedCountry(target.value);
-    }
+  const user = await prisma.user.findUnique({where: {email: String(session?.user?.email)}})
 
   return (
-    <div>
-    <select className={css({
+    <select
+      name="country"
+      className={css({
         rounded: "md",
         border: "2px solid black",
         boxSizing: "border-box",
-        width: "60%",
+        width: "15rem",
         height: "2.5rem",
         _hover: {
           border: "2px solid black",
-      }
-    })}
-    id="country"
-    name="country"
-    value={selectedCountry}>
-    <option value="">Anonymous Country</option>
-        {Object.values(countryData).map((countryName, index) => (
-          <option key={index} value={countryName}>
-            {countryName}
+        },
+      })}
+      id="country"
+      defaultValue={user?.country}
+    >
+      <option value="">Anonymous Country</option>
+      {Object.values(countryData).map((countryName, index) => (
+        <option key={index} value={countryName}>
+          {countryName}
         </option>
-    ))}
+      ))}
     </select>
-    </div>
   );
 }
