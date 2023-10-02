@@ -12,17 +12,59 @@ import prisma from "@/lib/prisma";
 import Button from "./Button";
 import { User, Letter, Prisma } from "@prisma/client";
 import Link from "next/link";
-import "@/lib/mailService"
+import "@/lib/mailService";
 import { sendMail } from "@/lib/mailService";
 import TextAreaWithCounter from "./TextAreaWithCounter";
-import countryData from './countryData.json';
-import Image from 'next/image';
+import countryData from "./countryData.json";
+import Image from "next/image";
+import CountrySelect from "./CountrySelect";
+import ReportButton, { handleError, handleReportLetter } from "./ReportButton";
+
+async function reportLetter(formData: FormData) {
+  "use server";
+
+  const session = await getServerSession();
+
+  const letter = (await prisma.letter.findUnique({
+    where: { id: Number(formData.get("letterId")) },
+  })) as Letter;
+
+  // create report
+  const report = await prisma.report.create({
+    data: {
+      reportContent: String(letter.letterContent),
+      reportContentType: "LETTER",
+      reportCreatorEmail: String(session?.user?.email),
+      reportContentAuthorEmail: String(letter.letterAuthorEmail),
+    },
+  });
+
+  // update isSpam of letter
+  const updatedLetter = await prisma.letter.update({
+    where: { id: Number(formData.get("letterId")) },
+    data: {
+      letterIsSpam: true,
+    },
+  });
+
+  // reset letterToRespond
+  const user = await prisma.user.update({
+    where: {
+      email: String(session?.user?.email),
+    },
+    data: {
+      letterToRespond: null,
+    },
+  });
+
+  redirect("/");
+}
 
 export default async function RespondLetter() {
   const session = await getServerSession(options);
 
-  if (!session){
-    redirect("/api/auth/signin")
+  if (!session) {
+    redirect("/api/auth/signin");
   }
 
   // check if user already has letterToRespond
@@ -33,21 +75,25 @@ export default async function RespondLetter() {
   // check letterToRespond
   const hasLetter = sessionUser?.letterToRespond !== null;
 
-  var randomLetter: Letter;
+  var randomLetter: Letter | null;
   var letterAuthor: User;
 
   if (hasLetter) {
     // get assigned letter
-    randomLetter = (await prisma.letter.findUnique({
+    randomLetter = await prisma.letter.findUnique({
       where: { id: Number(sessionUser?.letterToRespond) },
-    })) as Letter;
+    });
+
+    if (randomLetter === null) {
+      return NoLetterFound();
+    }
   } else {
     // get random letter and assign
     // get unresponded letters that are not by the responder
     const unrespondedLetters = await prisma.letter.findMany({
       where: {
         responseAuthorEmail: null,
-        NOT: { letterAuthorEmail: sessionUser.email },
+        NOT: { letterAuthorEmail: sessionUser.email, letterIsSpam: true },
       },
     });
 
@@ -69,37 +115,47 @@ export default async function RespondLetter() {
         data: { letterToRespond: randomLetter?.id },
       });
     } else {
-      return (
-        <div className={center({flexDirection:"column"})}>
-          <p className={css({ fontSize: "3xl", textAlign: "center", mt:"10rem" })}>
-            There are no letters to respond to at the moment. <br></br> Please
-            try again later!
-          </p>
-          <Link href="/">
-            <div
-              className={css({
-                mt:"5rem",
-                padding: "2",
-                rounded: "md",
-                background: "amber.300",
-                border: "2px solid black",
-                boxSizing: "border-box",
-                _hover: {
-                  transform: "scale(1.01)",
-                  boxShadow: {
-                    base: "0 5px 10px 0 rgba(0,0,0,0.19)",
-                    _dark: "0 5px 10px 0 rgba(255,255,255,0.19)",
-                  },
-                  transition: "all ease 0.1s",
-                },
-              })}
-            >
-              Back to home
-            </div>
-          </Link>
-        </div>
-      );
+      return NoLetterFound();
     }
+  }
+
+  function NoLetterFound() {
+    return (
+      <div className={center({ flexDirection: "column" })}>
+        <p
+          className={css({
+            fontSize: "3xl",
+            textAlign: "center",
+            mt: "10rem",
+          })}
+        >
+          There are no letters to respond to at the moment. <br></br> Please try
+          again later!
+        </p>
+        <Link href="/">
+          <div
+            className={css({
+              mt: "5rem",
+              padding: "2",
+              rounded: "md",
+              background: "amber.300",
+              border: "2px solid black",
+              boxSizing: "border-box",
+              _hover: {
+                transform: "scale(1.01)",
+                boxShadow: {
+                  base: "0 5px 10px 0 rgba(0,0,0,0.19)",
+                  _dark: "0 5px 10px 0 rgba(255,255,255,0.19)",
+                },
+                transition: "all ease 0.1s",
+              },
+            })}
+          >
+            Back to home
+          </div>
+        </Link>
+      </div>
+    );
   }
 
   async function submitResponse(formData: FormData) {
@@ -108,7 +164,7 @@ export default async function RespondLetter() {
     // update letter to create response
     const letter = await prisma.letter.update({
       where: {
-        id: randomLetter.id,
+        id: randomLetter?.id,
       },
       data: {
         responseAuthorEmail: String(session?.user?.email),
@@ -118,14 +174,15 @@ export default async function RespondLetter() {
     });
 
     if (!(letter instanceof Prisma.PrismaClientKnownRequestError)) {
-
       // send email to letter author
 
-      const letterLink = "https://dear-stranger.vercel.app/readresponse/"+String(letter.id)
+      const letterLink =
+        "https://dear-stranger.vercel.app/readresponse/" + String(letter.id);
 
-      const subject = "Dear Stranger, you got a response to your letter!"
-      const toEmail = letter.letterAuthorEmail
-      const otpText = "Read the response below! \n\n" + String(formData.get("content"))
+      const subject = "Dear Stranger, you got a response to your letter!";
+      const toEmail = letter.letterAuthorEmail;
+      const otpText =
+        "Read the response below! \n\n" + String(formData.get("content"));
       const htmlText = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
@@ -640,16 +697,16 @@ export default async function RespondLetter() {
           </tr>
         </table>
       </body>
-    </html>`
+    </html>`;
 
-      sendMail(subject, toEmail, otpText, htmlText)
-
+      sendMail(subject, toEmail, otpText, htmlText);
 
       // update user letterToRespond to null
       await prisma.user.update({
         where: { email: String(sessionUser?.email) },
         data: {
           letterToRespond: null,
+          country: String(formData.get("country")),
         },
       });
 
@@ -662,53 +719,92 @@ export default async function RespondLetter() {
   letterAuthor = (await prisma.user.findUnique({
     where: { email: randomLetter?.letterAuthorEmail },
   })) as User;
-  const countryCode = Object.keys(countryData as CountryData).find(
-    (code) => (countryData as CountryData)[code] === letterAuthor.country
-  ) || '';
+  const countryCode =
+    Object.keys(countryData as CountryData).find(
+      (code) => (countryData as CountryData)[code] === letterAuthor.country
+    ) || "";
+  const countryUrl = `https://flagsapi.com/${countryCode}/flat/64.png`;
 
-  const countryUrl = `https://flagsapi.com/${countryCode}/flat/64.png`
-  
   return (
     <div className={container({ maxW: "8xl" })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
-        Respond to a letter from:
-        <Image
-        src={countryUrl}
-        alt={letterAuthor.country}
-        width={64}
-        height={64}
-        />
+        Respond to a letter
       </p>
-      <div className={stack({ direction: {base:"column",md:"row"}, justifyContent: "center" })}>
-        <p
-          className={css({
-            background: "amber.300",
-            width: "50%",
-            height: "20rem",
-            padding: "12px 20px",
-            border: "2px solid black",
-            whiteSpace: "pre-line",
-            overflowY: "scroll",
-            _focus: {
-              outline: "none",
-            },
-            _dark: {
-              color: "black"
-            }
-          })}
+      {countryCode !== "" ? (
+        <div className={stack({ direction: "row" })}>
+          <div className={center()}>
+            Written by a stranger from: {letterAuthor.country}
+          </div>
+          <Image
+            src={countryUrl}
+            alt={letterAuthor.country}
+            width={32}
+            height={32}
+            className={css({
+              filter: {
+                base: "drop-shadow(0px 5px 10px rgba(0,0,0,0.25))",
+                _dark: "drop-shadow(0px 5px 10px rgba(255,255,255,0.25))",
+              },
+            })}
+          />
+        </div>
+      ) : (
+        <div className={css()}>
+          Written by a stranger from: Anonymous country
+        </div>
+      )}
+      <div
+        className={stack({
+          direction: { base: "column", md: "row" },
+          justifyContent: "center",
+        })}
+      >
+        <form
+          action={reportLetter}
+          onSubmit={handleReportLetter}
+          onError={handleError}
+          className={css({ width: { base: "100%", md: "50%" } })}
         >
-
-          {randomLetter?.letterContent}
-        </p>
+          <input
+            name="letterId"
+            type="text"
+            defaultValue={randomLetter.id}
+            hidden
+          ></input>
+          <p
+            className={css({
+              background: "amber.300",
+              width: "100%",
+              height: "20rem",
+              padding: "12px 20px",
+              border: "2px solid black",
+              whiteSpace: "pre-line",
+              overflowY: "scroll",
+              _focus: {
+                outline: "none",
+              },
+              _dark: {
+                color: "black",
+              },
+            })}
+          >
+            {randomLetter?.letterContent}
+          </p>
+          <ReportButton></ReportButton>
+        </form>
 
         <form
           id="letterForm"
           action={submitResponse}
-          className={css({ width: "50%" })}
+          className={css({
+            width: { base: "100%", md: "50%" },
+            mt: { base: "2rem", md: 0 },
+            mb: { base: "5rem", md: 0 },
+          })}
         >
           <TextAreaWithCounter></TextAreaWithCounter>
           <div className={flex({ justifyContent: "space-between" })}>
-            <div></div>
+            <CountrySelect></CountrySelect>
             <Button></Button>
           </div>
         </form>
