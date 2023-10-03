@@ -80,6 +80,9 @@ export default function MobileNav() {
             </>
           ) : (
             <>
+              <Link href="/about" className={css(buttonStyle)}>
+                <p className={css({color:"black"})}>About</p>
+              </Link>
               <Link href="/viewletters" className={css(buttonStyle)}>
                 <p className={css({color:"black"})}>View letters</p>
               </Link>
