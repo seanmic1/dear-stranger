@@ -39,6 +39,7 @@ export default function TextAreaWithCounter({children}: {children?: string }) {
           border: "2px solid black",
           resize: "none",
           whiteSpace: "pre-wrap",
+          overflowY: "scroll",
           _focus: {
             outline: "none",
           },
@@ -49,7 +50,7 @@ export default function TextAreaWithCounter({children}: {children?: string }) {
       ></textarea>
         <div className={stack({ direction: "row", justify: "space-between"})}>
           <div className={flex({ justify: "beginning", gap: 2 })}>
-            <p className={css({ textAlign: "left", height: "1.5rem",})}>Choose a country:&nbsp;</p>
+            <p className={css({ textAlign: "left", height: "1.5rem",})}>Select a country:&nbsp;</p>
           </div>
           <div className={spacer()}></div>
           <div id="counter" className={flex({ justify: "end", gap: 2 })}>

@@ -33,7 +33,7 @@ export default async function Navbar() {
       transition: "all ease 0.1s",
     },
     background: { base: "amber.300", _dark: "amber.300" },
-    display: {base: "none", md:"block"}
+    display: { base: "none", md: "block" },
   };
 
   if (session !== null) {
@@ -53,7 +53,6 @@ export default async function Navbar() {
           })}
         >
           <p>Logged in as: {session?.user?.email}</p>
-
         </div>
 
         <MobileNav></MobileNav>
@@ -89,20 +88,20 @@ export default async function Navbar() {
             gap: 6,
           })}
         >          
-        <Link href="/about">
+          <div className={css(signButton)}>
+            <ColorModeButton></ColorModeButton>
+          </div>
+
+          <Link href="/about">
           <div className={css(signButton)}>About</div>
         </Link>
         <Link href="/viewletters">
           <div className={css(signButton)}>View Letters</div>
         </Link>
-          <div className={css(signButton)}>
-            <ColorModeButton></ColorModeButton>
-          </div>
 
           <Link href="/api/auth/signout">
             <div className={css(signButton)}>Log Out</div>
           </Link>
-
         </div>
       </div>
     );
@@ -125,6 +124,7 @@ export default async function Navbar() {
           <Link href="/">
             <Image
               src="/dslogo.png"
+              priority={true}
               width={100}
               height={100}
               alt="Dear Stranger Logo"

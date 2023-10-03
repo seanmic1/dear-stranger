@@ -26,4 +26,20 @@ model Letter {
   responseDate        DateTime?
   letterAuthor        User      @relation("letterAuth", fields: [letterAuthorEmail], references: [email])
   responseAuthor      User?     @relation("responseAuth", fields: [responseAuthorEmail], references: [email])
+  letterIsSpam        Boolean   @default(false)
+  responseIsSpam      Boolean   @default(false)
+}
+
+model Report {
+  reportId Int @id @default(autoincrement())
+  reportDate DateTime @default(now())
+  reportContentType ContentType 
+  reportContent String
+  reportContentAuthorEmail String
+  reportCreatorEmail String
+}
+
+enum ContentType {
+  LETTER
+  RESPONSE
 }
