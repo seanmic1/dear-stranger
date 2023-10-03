@@ -89,6 +89,9 @@ export default async function Navbar() {
             gap: 6,
           })}
         >          
+        <Link href="/about">
+          <div className={css(signButton)}>About</div>
+        </Link>
         <Link href="/viewletters">
           <div className={css(signButton)}>View Letters</div>
         </Link>
