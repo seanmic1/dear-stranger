@@ -58,7 +58,7 @@ export default function MobileNav() {
         <div className={flex({ justifyContent: "space-between", p: 4 })}>
           <ColorModeButton></ColorModeButton>
           <div onClick={toggleMenu}>
-            <AiOutlineClose size={24}></AiOutlineClose>
+            <AiOutlineClose className={css({color:"black"})} size={24}></AiOutlineClose>
           </div>
         </div>
         {session.status !== "unauthenticated" ? (
@@ -75,16 +75,19 @@ export default function MobileNav() {
           {session.status === "unauthenticated" ? (
             <>
               <Link href="/api/auth/signin" className={css(buttonStyle)}>
-                <p>Sign in / Sign up</p>
+                <p className={css({color:"black"})}>Sign in / Sign up</p>
               </Link>
             </>
           ) : (
             <>
+              <Link href="/about" className={css(buttonStyle)}>
+                <p className={css({color:"black"})}>About</p>
+              </Link>
               <Link href="/viewletters" className={css(buttonStyle)}>
-                <p>View letters</p>
+                <p className={css({color:"black"})}>View letters</p>
               </Link>
               <Link href="/api/auth/signout" className={css(buttonStyle)}>
-                <p>Sign out</p>
+                <p className={css({color:"black"})}>Sign out</p>
               </Link>
             </>
           )}

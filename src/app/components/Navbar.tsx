@@ -87,14 +87,17 @@ export default async function Navbar() {
             pr: 6,
             gap: 6,
           })}
-        >
+        >          
           <div className={css(signButton)}>
             <ColorModeButton></ColorModeButton>
           </div>
 
-          <Link href="/viewletters">
-            <div className={css(signButton)}>View Letters</div>
-          </Link>
+          <Link href="/about">
+          <div className={css(signButton)}>About</div>
+        </Link>
+        <Link href="/viewletters">
+          <div className={css(signButton)}>View Letters</div>
+        </Link>
 
           <Link href="/api/auth/signout">
             <div className={css(signButton)}>Log Out</div>
