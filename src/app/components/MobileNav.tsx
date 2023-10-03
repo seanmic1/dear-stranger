@@ -107,7 +107,7 @@ export default function MobileNav() {
           </p>
         </div>
         <div className={stack({ padding: 4, direction: "column" })}>
-          <Link href="/api/auth/signout" className={css()}>
+          <Link href="/api/auth/signout" className={css( {color: "black"} )}>
             <p>Sign out</p>
           </Link>
         </div>
