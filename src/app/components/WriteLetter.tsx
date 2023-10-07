@@ -1,6 +1,6 @@
 import { FormEvent } from "react";
 import { css } from "../../../styled-system/css";
-import { container, flex } from "../../../styled-system/patterns";
+import { center, container, flex } from "../../../styled-system/patterns";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import options from "@/app/api/auth/[...nextauth]/options";
@@ -9,6 +9,7 @@ import prisma from "@/lib/prisma";
 import Button, { handleSubmit } from "./Button";
 import TextAreaWithCounter from "./TextAreaWithCounter";
 import CountrySelect from "./CountrySelect";
+import Link from "next/link";
 
 export default async function WriteLetter() {
   const session = await getServerSession(options);
@@ -57,9 +58,9 @@ export default async function WriteLetter() {
       "Spill the tea?",
       "Spill the tea?",
       "Tell them a random fact about your life?",
-      "Tell them about \"THAT\" guy?",
-      "Tell them about \"THAT\" girl?",
-      "Tell them about \"THAT\" person?",
+      'Tell them about "THAT" guy?',
+      'Tell them about "THAT" girl?',
+      'Tell them about "THAT" person?',
       "Tell them about an unpopular opinion you have?",
       "Tell them how you're doing?",
       "Tell them your honest opinion on something?",
@@ -88,18 +89,68 @@ export default async function WriteLetter() {
     return randomSuggestions.at(getRandomInt(randomSuggestions.length));
   }
 
+  let lastDay = Date.now() - 24 * 60 * 60 * 1000;
+  let stringLastDay = new Date(lastDay).toISOString();
+
+  const numberOfLettersInPastHour = await prisma.letter.count({
+    where: {
+      AND: [
+        { letterAuthorEmail: String(session.user?.email) },
+        {
+          letterDate: {
+            gte: stringLastDay
+          },
+        },
+      ],
+    },
+  });
+
+  if (numberOfLettersInPastHour > 5){
+    return (
+      <div className={container({ maxW: "4xl" })}>
+        <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
+          To prevent spam, you can only write 5 letters an hour! Check back 1 hour after your earliest letter.
+        </p>
+        <Link href="/">
+          <div
+            className={center({
+              m:"20",
+              padding: "2",
+              rounded: "md",
+              background: "amber.300",
+              border: "2px solid transparent",
+              boxSizing: "border-box",
+              _hover: {
+                border: "2px solid black",
+              },
+              color: "black",
+            })}
+          >
+            Back to home
+          </div>
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className={container({ maxW: "4xl" })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
         Write a letter
       </p>
-      <p className={css({ fontSize: "sm", color:"darkgray", textAlign: "center", fontStyle:"italic", pb:2})}>
+      <p
+        className={css({
+          fontSize: "sm",
+          color: "darkgray",
+          textAlign: "center",
+          fontStyle: "italic",
+          pb: 2,
+        })}
+      >
         {await randomSuggestion()}
       </p>
       <form id="letterForm" action={submitLetter} onSubmit={handleSubmit}>
-        <TextAreaWithCounter>
-          {"Dear stranger,\n\n"}
-        </TextAreaWithCounter>
+        <TextAreaWithCounter>{"Dear stranger,\n\n"}</TextAreaWithCounter>
         <div className={flex({ justifyContent: "space-between" })}>
           <CountrySelect></CountrySelect>
           <Button></Button>

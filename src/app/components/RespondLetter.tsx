@@ -68,6 +68,52 @@ export default async function RespondLetter() {
     redirect("/api/auth/signin");
   }
 
+  // check if user responded to >5 letters in last 24 hrs
+  let lastDay = Date.now() - 24 * 60 * 60 * 1000;
+  let stringLastDay = new Date(lastDay).toISOString();
+
+  const numberOfResponsesInPastHour = await prisma.letter.count({
+    where: {
+      AND: [
+        { responseAuthorEmail: String(session.user?.email) },
+        {
+          responseDate: {
+            gte: stringLastDay
+          },
+        },
+      ],
+    },
+  });
+
+  if (numberOfResponsesInPastHour > 5){
+    return (
+      <div className={container({ maxW: "4xl" })}>
+        <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
+        To prevent spam, you can only respond to 5 letters an hour! Check back 1 hour after your earliest letter.
+        </p>
+        <Link href="/">
+          <div
+            className={center({
+              m:"20",
+              padding: "2",
+              rounded: "md",
+              background: "amber.300",
+              border: "2px solid transparent",
+              boxSizing: "border-box",
+              _hover: {
+                border: "2px solid black",
+              },
+              color: "black",
+            })}
+          >
+            Back to home
+          </div>
+        </Link>
+      </div>
+    );
+  }
+
+
   // check if user already has letterToRespond
   // get user
   const sessionUser = await prisma.user.findUnique({
