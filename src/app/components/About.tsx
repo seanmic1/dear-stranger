@@ -29,7 +29,7 @@ export default async function About() {
           FAQ
         </p>
         <p className={css(headerStyle)}>
-          What is "Dear Stranger"?
+          What is Dear Stranger?
         </p>
         <p>
           Dear Stranger is about letting people send anonymous letters to be answered by absolutely anyone in the world! 
@@ -41,7 +41,7 @@ export default async function About() {
         </p>
         <p>
           I made this app because I wanted to get into web development, and I had this website idea for quite a while. 
-          <br/> I came up with the idea of Dear Stranger after I realized that there's really no place you can dump some idea and get a response about it. Technically you could just message random people on any social media platform, but no one would reply, and they can't reply anonymously. Thus, Dear Stranger was born.
+          <br/> I came up with the idea of Dear Stranger after I realized that there&apos;s really no place you can dump some idea and get a response about it. Technically you could just message random people on any social media platform, but no one would reply, and they can&apos;t reply anonymously. Thus, Dear Stranger was born.
         </p>
         <p className={css(headerStyle)}>
           How to use it?
