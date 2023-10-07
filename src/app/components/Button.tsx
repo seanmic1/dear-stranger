@@ -4,7 +4,7 @@ import { css } from "../../../styled-system/css";
 
 export function handleSubmit(){
 
-  alert("You will recieve an email when your letter get a response.")
+  alert("You will recieve an email when your letter gets a response.")
 
 }
 
