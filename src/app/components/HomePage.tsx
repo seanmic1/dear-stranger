@@ -33,7 +33,7 @@ export default function HomePage() {
             <WriteRespondButton>Write a letter</WriteRespondButton>
           </Link>
         </div>
-        <div className={center()}>
+        <div className={center({mt: 10})}>
           <Link href={"/respondletter"}>
             <WriteRespondButton>Respond to a letter</WriteRespondButton>
           </Link>
