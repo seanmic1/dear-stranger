@@ -4,17 +4,17 @@ import prisma from "../../../lib/prisma";
 
 export async function GET(request: NextRequest) {
 
-  // const authHeader = request.headers.get('authorization');
-  // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-  //   return NextResponse.json(
-  //     { success: false },
-  //     {
-  //       status: 401,
-  //     },
-  //   );
-  // }
+  const authHeader = request.headers.get('authorization');
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json(
+      { success: false },
+      {
+        status: 401,
+      },
+    );
+  }
 
-  prisma.letter.updateMany({
+  await prisma.letter.updateMany({
     where:{
       responseContent: null
     },
@@ -23,7 +23,10 @@ export async function GET(request: NextRequest) {
     }
   })
 
-  prisma.user.updateMany({
+  await prisma.user.updateMany({
+    where:{
+      letterToRespond: {not: null}
+    },
     data:{
       letterToRespond: null
     }
