@@ -74,19 +74,19 @@ export default function MobileNav() {
         <div className={stack({ padding: 4, direction: "column" })}>
           {session.status === "unauthenticated" ? (
             <>
-              <Link href="/api/auth/signin" className={css(buttonStyle)}>
+              <Link href="/api/auth/signin" onClick={toggleMenu} className={css(buttonStyle)}>
                 <p className={css({color:"black"})}>Sign in / Sign up</p>
               </Link>
             </>
           ) : (
             <>
-              <Link href="/about" className={css(buttonStyle)}>
+              <Link href="/about" onClick={toggleMenu} className={css(buttonStyle)}>
                 <p className={css({color:"black"})}>About</p>
               </Link>
-              <Link href="/viewletters" className={css(buttonStyle)}>
+              <Link href="/viewletters" onClick={toggleMenu} className={css(buttonStyle)}>
                 <p className={css({color:"black"})}>View letters</p>
               </Link>
-              <Link href="/api/auth/signout" className={css(buttonStyle)}>
+              <Link href="/api/auth/signout" onClick={toggleMenu} className={css(buttonStyle)}>
                 <p className={css({color:"black"})}>Sign out</p>
               </Link>
             </>
