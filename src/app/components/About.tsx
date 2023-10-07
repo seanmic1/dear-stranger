@@ -7,17 +7,6 @@ import {
   spacer,
   center
 } from "../../../styled-system/patterns";
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import options from "@/app/api/auth/[...nextauth]/options";
-import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
-import Button from "./Button";
-import { User, Letter, Prisma } from "@prisma/client";
-import LetterDetails from "./LetterDetails";
-import Link from "next/link";
-import DeleteButton from "./DeleteButton";
-import ViewButton from "./ViewButton";
 
 const headerStyle = { fontSize: "xl", textAlign: "left", fontWeight:"bold", mt:8, mb:2 }
 
