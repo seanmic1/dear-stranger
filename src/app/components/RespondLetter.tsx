@@ -43,7 +43,7 @@ async function reportLetter(formData: FormData) {
   const updatedLetter = await prisma.letter.update({
     where: { id: Number(formData.get("letterId")) },
     data: {
-      responseAuthor: {disconnect: true},
+      responseAuthor: { disconnect: true },
       letterIsSpam: true,
     },
   });
@@ -730,6 +730,10 @@ export default async function RespondLetter() {
     <div className={container({ maxW: "8xl" })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
         Respond to a letter
+      </p>
+      <p className={css({ fontSize: "sm", textAlign: "center", fontStyle:"italic", pb:4 })}>
+        You will be assigned a new letter every 30 mins or after you respond to
+        this one.
       </p>
       {countryCode !== "" ? (
         <div className={stack({ direction: "row" })}>
