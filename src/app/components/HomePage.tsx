@@ -4,10 +4,10 @@ import WriteRespondButton from "./WriteRespondButton";
 import { css } from "../../../styled-system/css";
 import prisma from "@/lib/prisma";
 
-export default function HomePage() {
+export default async function HomePage() {
 
-  let lettersWritten = prisma.letter.count()
-  let unrespondedLetters = prisma.letter.count({where:{responseContent: null}})
+  let lettersWritten = await prisma.letter.count()
+  let unrespondedLetters = await prisma.letter.count({where:{responseContent: null}})
 
   return (
     <div
@@ -42,7 +42,7 @@ export default function HomePage() {
           <Link href={"/respondletter"}>
             <WriteRespondButton>Respond to a letter</WriteRespondButton>
           </Link>
-          <p className={css({textAlign:"center", p:4, fontStyle: "italic"})}>{unrespondedLetters} letters with no response!</p>
+          <p className={css({textAlign:"center", p:4, fontStyle: "italic"})}>{unrespondedLetters} {unrespondedLetters === 1 ? 'letter' : 'letters'} with no response!</p>
         </div>
       </div>
     </div>
