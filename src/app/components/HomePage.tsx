@@ -27,18 +27,18 @@ export default async function HomePage() {
           width: "100%",
           direction: {base: "column", lg:"row"},
           justify: "center",
-          gap: { base: "5rem", lg: "15%" },
-          mt: "2rem",
-          mb: "5rem"
+          gap: { base: "5rem" },
+          mt: "1rem",
+          mb: "1rem"
         })}
       >
-        <div>
+        <div className={center({flex:"1",flexDir:"column"})}>
           <Link href={"/writeletter"}>
             <WriteRespondButton>Write a letter</WriteRespondButton>
           </Link>
           <p className={css({textAlign:"center", p:4, fontStyle: "italic"})}>{lettersWritten} letters written worldwide!</p>
         </div>
-        <div>
+        <div className={center({flex:"1",flexDir:"column"})}>
           <Link href={"/respondletter"}>
             <WriteRespondButton>Respond to a letter</WriteRespondButton>
           </Link>
