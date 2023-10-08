@@ -53,7 +53,7 @@ export default async function About() {
         <p className={css({ fontSize: "3xl", textAlign: "center", p: "4", mt:"12", fontWeight:"bolder" })}>
           Credits
         </p>
-        <p>
+        <p className={css({textAlign: "center"})}>
           Sean Michael
           <br/>
           Amirul Azizol
