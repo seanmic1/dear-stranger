@@ -18,7 +18,7 @@ export default async function HomePage() {
       <div className={center({ p: 10, width: "100%" })}>
         <div className={stack({ direction: "column" })}>
           <p className={center({ fontWeight:"bold", p:4, textAlign:"center" })}>
-            Write anonymized letters and get replies from fellow strangers!
+            Write anonymized letters and get replies from fellow strangers ✨
           </p>
         </div>
       </div>
