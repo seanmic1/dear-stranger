@@ -140,7 +140,7 @@ export default async function RespondLetter() {
     const unrespondedLetters = await prisma.letter.findMany({
       where: {
         responseAuthorEmail: null,
-        NOT: { letterAuthorEmail: sessionUser.email, letterIsSpam: true },
+        NOT: { letterAuthorEmail: {equals: sessionUser.email}},
       },
     });
 
