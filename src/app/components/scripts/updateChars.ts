@@ -8,6 +8,5 @@ export default async function updateCharCount() {
     ) as HTMLParagraphElement;
 
     typedcharsElement.textContent = String(textareaElement.value.length);
-    console.log("yuh")
   }
 }
