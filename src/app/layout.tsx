@@ -23,6 +23,28 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
 
+  if (process.env.MAINTENANCE_MODE === "1"){
+    return (
+      <html lang="en" suppressHydrationWarning>
+      <body
+        id="body"
+        className={
+          inter.className +
+          " " +
+          css({ background: { base: "white", _dark: "#161616" } })
+        }
+      >
+        <GoogleAnalytics />
+        <Providers>
+          <SessionProvider>
+              {children}
+          </SessionProvider>
+        </Providers>
+      </body>
+    </html>
+    )
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body id="body" className={inter.className + " " + css({background: {base: "white", _dark:"#161616"}})}>
