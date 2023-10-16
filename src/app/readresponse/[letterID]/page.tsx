@@ -10,6 +10,9 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import ReportButton, { handleError, handleReportLetter } from "@/app/components/ReportButton";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
+import { CustomSession } from "@/lib/CustomSession";
 export const metadata: Metadata = {
   title: "Read Response",
   description: "Dear Stranger - Read response",
@@ -18,13 +21,13 @@ export const metadata: Metadata = {
 async function reportResponse(formData: FormData) {
   "use server";
 
-  const session = await getServerSession()
+  const session = await getServerSession(options) as CustomSession
 
   const letter = await prisma.letter.findUnique({
     where: { id: Number(formData.get("letterId")) },
   }) as Letter;
 
-  if (session?.user?.email !== letter.letterAuthorEmail){
+  if (session?.user?.id !== letter.letterAuthorId){
     
     return { message: 'Only the letter author can report responses!' }
   }
@@ -33,8 +36,8 @@ async function reportResponse(formData: FormData) {
     data: {
       reportContent: String(letter.responseContent),
       reportContentType: "RESPONSE",
-      reportCreatorEmail: String(session?.user?.email),
-      reportContentAuthorEmail: String(letter.responseAuthorEmail)
+      reportCreatorId: String(session?.user?.id),
+      reportContentAuthorId: String(letter.responseAuthorId)
     },
   });
 
@@ -42,7 +45,8 @@ async function reportResponse(formData: FormData) {
   const updatedLetter = await prisma.letter.update({
     where: { id: Number(formData.get("letterId")) },
     data:{
-      responseAuthor: {disconnect:true},
+      responseAuthorId: null,
+      responseCountry: null,
       responseContent: null,
       responseDate: null
     }
@@ -57,7 +61,7 @@ export default async function ReadResponseID({
   params: { letterID: string };
 }) {
   // get session
-  const session = await getServerSession(options);
+  const session = await getServerSession(options) as CustomSession;
 
   // ask to login if no session
   if (!session) {
@@ -71,34 +75,25 @@ export default async function ReadResponseID({
     where: { id: Number(params.letterID) },
   })) as Letter;
 
-  const author = (await prisma.user.findUnique({
-    where: { email: letter.letterAuthorEmail },
-  })) as User;
 
-  const responder =
-    letter.responseAuthorEmail !== null
-      ? ((await prisma.user.findUnique({
-          where: { email: letter.responseAuthorEmail },
-        })) as User)
-      : null;
+  type CountryData = { [code: string]: string };
+
+  const countryCode =
+    Object.keys(countryData as CountryData).find(
+      (code) => (countryData as CountryData)[code] === letter.letterCountry
+    ) || "";
+  const countryUrl = `https://flagsapi.com/${countryCode}/flat/64.png`;
 
   const responseCountryCode =
-    responder !== null
+    letter.responseContent !== null
       ? Object.keys(countryData as CountryData).find(
-          (code) => (countryData as CountryData)[code] === responder.country
+          (code) => (countryData as CountryData)[code] === letter.responseCountry
         ) || ""
       : null;
   const responseCountryUrl =
     responseCountryCode !== null
       ? `https://flagsapi.com/${responseCountryCode}/flat/64.png`
       : null;
-
-  type CountryData = { [code: string]: string };
-  const countryCode =
-    Object.keys(countryData as CountryData).find(
-      (code) => (countryData as CountryData)[code] === author.country
-    ) || "";
-  const countryUrl = `https://flagsapi.com/${countryCode}/flat/64.png`;
 
   if (letter === null) {
     <>
@@ -134,8 +129,8 @@ export default async function ReadResponseID({
 
   if (
     !(
-      session?.user?.email === letter.letterAuthorEmail ||
-      session?.user?.email === letter.responseAuthorEmail
+      String(session?.user?.id) === letter.letterAuthorId ||
+      String(session?.user?.id) === letter.responseAuthorId
     )
   ) {
     return (
@@ -153,6 +148,8 @@ export default async function ReadResponseID({
   }
 
   return (
+    <>
+    <Navbar></Navbar>
     <div className={container({ maxW: "8xl" })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
         Read response
@@ -165,14 +162,14 @@ export default async function ReadResponseID({
       >
         <div className={css({ w: "100%" })}>
           <p className={css({ fontWeight: "bold" })}>Original letter</p>
-          {author.country !== "" ? (
+          {letter.letterCountry !== null ? (
             <div className={stack({ direction: "row" })}>
               <div className={center({})}>
-                Written by a stranger from: {author.country}
+                Written by a stranger from: {letter.letterCountry}
               </div>
               <Image
                 src={countryUrl}
-                alt={author.country}
+                alt={letter.letterCountry}
                 width={32}
                 height={32}
                 className={css({
@@ -215,16 +212,16 @@ export default async function ReadResponseID({
               defaultValue={letter.id}
               hidden
             ></input>
-            {responder !== null ? (
+            {letter.responseContent !== null ? (
               <div className={stack({ direction: "row" })}>
-                {responder.country !== "" ? (
+                {letter.responseCountry !== null ? (
                   <>
                     <div className={center({})}>
-                      Written by a stranger from: {responder.country}
+                      Written by a stranger from: {letter.responseCountry}
                     </div>
                     <Image
                       src={String(responseCountryUrl)}
-                      alt={author.country}
+                      alt={letter.responseCountry}
                       width={32}
                       height={32}
                       className={css({
@@ -266,10 +263,12 @@ export default async function ReadResponseID({
                 ? letter.responseContent
                 : "(No response yet)"}
             </p>
-            {responder !== null ? <ReportButton></ReportButton> : <></>}
+            {letter.responseContent !== null ? <ReportButton></ReportButton> : <></>}
           </form>
         </div>
       </div>
     </div>
+    <Footer></Footer>
+    </>
   );
 }

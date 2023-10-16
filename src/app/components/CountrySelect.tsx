@@ -23,7 +23,7 @@ export default async function TextAreaWithCounter() {
         },
       })}
       id="country"
-      defaultValue={user?.country}
+      defaultValue={String(user?.country)}
     >
       <option value="">Anonymous Country</option>
       {Object.values(countryData).map((countryName, index) => (

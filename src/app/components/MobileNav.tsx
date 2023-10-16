@@ -58,13 +58,16 @@ export default function MobileNav() {
         <div className={flex({ justifyContent: "space-between", p: 4 })}>
           <ColorModeButton></ColorModeButton>
           <div onClick={toggleMenu}>
-            <AiOutlineClose className={css({color:"black"})} size={24}></AiOutlineClose>
+            <AiOutlineClose
+              className={css({ color: "black" })}
+              size={24}
+            ></AiOutlineClose>
           </div>
         </div>
         {session.status !== "unauthenticated" ? (
           <div className={css({ padding: 4 })}>
             <p className={css({ color: "black" })}>
-              Logged in as: <br></br> {session.data?.user?.email}
+              Signed in as: <br></br> {session.data?.user?.email}
             </p>
           </div>
         ) : (
@@ -74,21 +77,55 @@ export default function MobileNav() {
         <div className={stack({ padding: 4, direction: "column" })}>
           {session.status === "unauthenticated" ? (
             <>
-              <Link href="/api/auth/signin" onClick={toggleMenu} className={css(buttonStyle)}>
-                <p className={css({color:"black"})}>Sign in / Sign up</p>
+            <Link
+                href="/about"
+                onClick={toggleMenu}
+                className={css(buttonStyle)}
+              >
+                <p className={css({ color: "black" })}>About</p>
+              </Link>
+              <Link
+                href="/api/auth/signin"
+                onClick={toggleMenu}
+                className={css(buttonStyle)}
+              >
+                <p className={css({ color: "black" })}>Sign in / Sign up</p>
               </Link>
             </>
           ) : (
             <>
-              <Link href="/about" onClick={toggleMenu} className={css(buttonStyle)}>
-                <p className={css({color:"black"})}>About</p>
+              <Link
+                href="/about"
+                onClick={toggleMenu}
+                className={css(buttonStyle)}
+              >
+                <p className={css({ color: "black" })}>About</p>
               </Link>
-              <Link href="/viewletters" onClick={toggleMenu} className={css(buttonStyle)}>
-                <p className={css({color:"black"})}>View letters</p>
+              <Link
+                href="/viewletters"
+                onClick={toggleMenu}
+                className={css(buttonStyle)}
+              >
+                <p className={css({ color: "black" })}>View letters</p>
               </Link>
-              <Link href="/api/auth/signout" onClick={toggleMenu} className={css(buttonStyle)}>
-                <p className={css({color:"black"})}>Sign out</p>
-              </Link>
+              
+              {session.data?.user?.email?.endsWith("example.com") ? (
+                <Link
+                  href="/api/auth/signin"
+                  onClick={toggleMenu}
+                  className={css(buttonStyle)}
+                >
+                  <p className={css({ color: "black" })}>Sign up</p>
+                </Link>
+              ) : (
+                <Link
+                  href="/api/auth/signout"
+                  onClick={toggleMenu}
+                  className={css(buttonStyle)}
+                >
+                  <p className={css({ color: "black" })}>Sign out</p>
+                </Link>
+              )}
             </>
           )}
         </div>

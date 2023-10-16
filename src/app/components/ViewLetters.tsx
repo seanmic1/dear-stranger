@@ -18,17 +18,18 @@ import LetterDetails from "./LetterDetails";
 import Link from "next/link";
 import DeleteButton, { confirmDelete } from "./DeleteButton";
 import ViewButton from "./ViewButton";
+import { CustomSession } from "@/lib/CustomSession";
 
 export default async function ViewLetters() {
-  const session = await getServerSession(options);
+  const session = await getServerSession(options) as CustomSession;
 
   if (!session) {
-    redirect("/api/auth/signin");
+    redirect("/");
   }
 
   const letters = await prisma.letter.findMany({
     where: {
-      letterAuthorEmail: String(session?.user?.email),
+      letterAuthorId: String(session?.user?.id),
     },
     orderBy: {
       letterDate: "desc",

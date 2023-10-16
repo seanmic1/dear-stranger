@@ -6,13 +6,16 @@ import { getServerSession } from "next-auth";
 import options from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import Button, { handleSubmit } from "./Button";
+import Button from "./Button";
 import TextAreaWithCounter from "./TextAreaWithCounter";
 import CountrySelect from "./CountrySelect";
 import Link from "next/link";
+import { CustomSession } from "@/lib/CustomSession";
+import Success from "./Success";
+import Fail from "./Fail";
 
 export default async function WriteLetter() {
-  const session = await getServerSession(options);
+  const session = await getServerSession(options) as CustomSession;
 
   if (!session) {
     redirect("/api/auth/signin");
@@ -23,8 +26,9 @@ export default async function WriteLetter() {
 
     const response = await prisma.letter.create({
       data: {
-        letterAuthorEmail: String(session?.user?.email),
+        letterAuthorId: String(session.user?.id),
         letterContent: String(formData.get("content")),
+        letterCountry: String(formData.get("country")) === "" ? null : String(formData.get("country"))
       },
     });
 
@@ -36,13 +40,12 @@ export default async function WriteLetter() {
     });
 
     if (response) {
-      redirect("writeletter/success");
+      redirect("/success")
     } else {
-      redirect("writeletter/fail");
+      redirect("/fail")
     }
   }
 
-  // check if user has already written a letter in the past 24 hours (TODO)
 
   async function randomSuggestion() {
     function getRandomInt(max: number) {
@@ -95,26 +98,26 @@ export default async function WriteLetter() {
   const numberOfLettersInPastHour = await prisma.letter.count({
     where: {
       AND: [
-        { letterAuthorEmail: String(session.user?.email) },
+        { letterAuthorId: String(session.user?.id) },
         {
           letterDate: {
-            gte: stringLastDay
+            gte: stringLastDay,
           },
         },
       ],
     },
   });
 
-  if (numberOfLettersInPastHour > 5){
+  if (numberOfLettersInPastHour >= 10) {
     return (
       <div className={container({ maxW: "4xl" })}>
         <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
-          To prevent spam, you can only write 5 letters an hour! Check back 1 hour after your earliest letter.
+          To prevent spam, you can only write 10 letters per hour! Please try again later.
         </p>
         <Link href="/">
           <div
             className={center({
-              m:"20",
+              m: "20",
               padding: "2",
               rounded: "md",
               background: "amber.300",
@@ -132,7 +135,7 @@ export default async function WriteLetter() {
       </div>
     );
   }
-
+  
   return (
     <div className={container({ maxW: "4xl" })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
@@ -149,9 +152,9 @@ export default async function WriteLetter() {
       >
         {await randomSuggestion()}
       </p>
-      <form id="letterForm" action={submitLetter} onSubmit={handleSubmit}>
+      <form id="letterForm" action={submitLetter}>
         <TextAreaWithCounter>{"Dear stranger,\n\n"}</TextAreaWithCounter>
-        <div className={flex({ justifyContent: "space-between" })}>
+        <div className={flex({ justifyContent: "space-between", direction:{base: "column", md:"row"}, gap:{base:"1rem",md:"none"} })}>
           <CountrySelect></CountrySelect>
           <Button></Button>
         </div>

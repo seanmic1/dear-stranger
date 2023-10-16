@@ -14,15 +14,18 @@ import Image from "next/image";
 import ColorModeButton from "./ColorModeButton";
 import { GiHamburgerMenu } from "react-icons/gi";
 import MobileNav from "./MobileNav";
+import { signIn } from "next-auth/react";
+import { CustomSession } from "@/lib/CustomSession";
 
 export default async function Navbar() {
-  const session = await getServerSession(options);
+  const session = (await getServerSession(options)) as CustomSession;
 
   const signButton: SystemStyleObject = {
-    border: { base: "2px solid black", _dark: "2px solid white" },
+    border: { base: "2px solid black", _dark: "2px solid black" },
     color: "black",
     p: 2,
     fontSize: { base: "0.75rem", md: "1rem" },
+    whiteSpace: "nowrap",
     rounded: "sm",
     _hover: {
       transform: "scale(1.01)",
@@ -46,16 +49,23 @@ export default async function Navbar() {
       >
         <div
           className={flex({
-            position: { base: "absolute", md: "relative" },
             display: { base: "none", md: "block" },
             width: "1/3",
             p: 6,
           })}
         >
-          <p>Logged in as: {session?.user?.email}</p>
+          <p>Signed in as: {session?.user?.name}</p>
         </div>
 
-        <MobileNav></MobileNav>
+        <div
+          className={flex({
+            justifyContent:"left",
+            display: { base: "block", md: "none" },
+            width: "1/3",
+          })}
+        >
+          <MobileNav></MobileNav>
+        </div>
 
         <div className={flex({ width: "1/3", justifyContent: "center" })}>
           <Link href="/">
@@ -65,8 +75,7 @@ export default async function Navbar() {
               height={100}
               alt="Dear Stranger Logo"
               className={css({
-                ml: "20px",
-                p: 2,
+                p:2,
                 _hover: {
                   filter: {
                     base: "drop-shadow(0px 5px 10px rgba(0,0,0,0.25))",
@@ -85,23 +94,30 @@ export default async function Navbar() {
             width: "1/3",
             justifyContent: "right",
             pr: 6,
-            gap: 6,
+            gap: 4,
           })}
-        >          
+        >
           <div className={css(signButton)}>
             <ColorModeButton></ColorModeButton>
           </div>
 
           <Link href="/about">
-          <div className={css(signButton)}>About</div>
-        </Link>
-        <Link href="/viewletters">
-          <div className={css(signButton)}>View Letters</div>
-        </Link>
-
-          <Link href="/api/auth/signout">
-            <div className={css(signButton)}>Log Out</div>
+            <div className={css(signButton)}>About</div>
           </Link>
+
+          <Link href="/viewletters">
+            <div className={css(signButton)}>View Letters</div>
+          </Link>
+
+          {session.user?.email?.endsWith("example.com") ? (
+            <Link href="/api/auth/signin">
+              <div className={css(signButton)}>Sign up</div>
+            </Link>
+          ) : (
+            <Link href="/api/auth/signout">
+              <div className={css(signButton)}>Log Out</div>
+            </Link>
+          )}
         </div>
       </div>
     );
@@ -113,10 +129,28 @@ export default async function Navbar() {
           alignItems: "center",
         })}
       >
-        <div className={flex({ width: "1/3", p: 6, textAlign: "center" })}>
-          <Link href="/api/auth/signin">
-            <div className={css(signButton)}>Sign In / Sign Up</div>
+        <div
+          className={flex({
+            width: "1/3",
+            justifyContent: "left",
+            display: { base: "none", md: "flex" },
+            pl: 6,
+            gap: 4,
+          })}
+        >
+          
+          <Link href="/signin">
+            <div className={css(signButton)}>Sign in / Sign up</div>
           </Link>
+        </div>
+
+        <div
+          className={flex({
+            justifyContent:"left",
+            display: { base: "flex", md: "none" },
+            width: "1/3",
+          })}
+        >
           <MobileNav></MobileNav>
         </div>
 
@@ -129,8 +163,7 @@ export default async function Navbar() {
               height={100}
               alt="Dear Stranger Logo"
               className={css({
-                ml: "20px",
-                p: 2,
+                p:2,
                 _hover: {
                   filter: {
                     base: "drop-shadow(0px 5px 10px rgba(0,0,0,0.25))",
@@ -149,12 +182,15 @@ export default async function Navbar() {
             width: "1/3",
             justifyContent: "right",
             pr: 6,
-            gap: 6,
+            gap: 4,
           })}
         >
           <div className={css(signButton)}>
             <ColorModeButton></ColorModeButton>
           </div>
+          <Link href="/about">
+            <div className={css(signButton)}>About</div>
+          </Link>
         </div>
       </div>
     );

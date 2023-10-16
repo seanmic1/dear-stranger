@@ -8,35 +8,35 @@ datasource db {
 }
 
 model User {
-  email           String   @id @unique
+  id              String @id @default(cuid())
+  email           String @unique
   name            String
-  country         String
-  letters         Letter[] @relation("letterAuth")
-  responses       Letter[] @relation("responseAuth")
+  country         String?
   letterToRespond Int?
+  creationDate    DateTime @default(now())
 }
 
 model Letter {
-  id                  Int       @id @default(autoincrement())
-  letterAuthorEmail   String
-  letterContent       String
-  responseAuthorEmail String?
-  responseContent     String?
-  letterDate          DateTime  @default(now())
-  responseDate        DateTime?
-  letterAuthor        User      @relation("letterAuth", fields: [letterAuthorEmail], references: [email])
-  responseAuthor      User?     @relation("responseAuth", fields: [responseAuthorEmail], references: [email])
-  letterIsSpam        Boolean   @default(false)
-  responseIsSpam      Boolean   @default(false)
+  id               Int       @id @default(autoincrement())
+  letterAuthorId   String
+  letterContent    String
+  responseAuthorId String?
+  responseContent  String?
+  letterDate       DateTime  @default(now())
+  responseDate     DateTime?
+  letterIsSpam     Boolean   @default(false)
+  responseIsSpam   Boolean   @default(false)
+  letterCountry    String?
+  responseCountry  String?
 }
 
 model Report {
-  reportId Int @id @default(autoincrement())
-  reportDate DateTime @default(now())
-  reportContentType ContentType 
-  reportContent String
-  reportContentAuthorEmail String
-  reportCreatorEmail String
+  reportId              Int         @id @default(autoincrement())
+  reportDate            DateTime    @default(now())
+  reportContentType     ContentType
+  reportContent         String
+  reportContentAuthorId String
+  reportCreatorId       String
 }
 
 enum ContentType {

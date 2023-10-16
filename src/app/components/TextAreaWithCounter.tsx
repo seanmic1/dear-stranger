@@ -40,6 +40,7 @@ export default function TextAreaWithCounter({children}: {children?: string }) {
           resize: "none",
           whiteSpace: "pre-wrap",
           overflowY: "scroll",
+          scrollbar: "hidden",
           _focus: {
             outline: "none",
           },

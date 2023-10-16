@@ -12,7 +12,14 @@ export default defineConfig({
 
     // Useful for theme customization
     theme: {
-      extend: {},
+      extend: {
+        keyframes: {
+          fadeIn: {
+            '0%': { opacity: '0%' },
+          '100%': {  opacity: '90%'  }
+          }
+        }
+      },
     },
 
     conditions: {
