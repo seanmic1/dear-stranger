@@ -11,7 +11,7 @@ export default function Terms() {
       Terms of Service for Dear Stranger
       <br/>
       <br/>
-      These Terms of Use apply when you use service of the "Dear Stranger" website (“Service”).
+      These Terms of Use apply when you use service of the &quot;Dear Stranger&quot; website (&quot;Service&quot;).
       <br/>
       <br/>
       1. Registration and Access
