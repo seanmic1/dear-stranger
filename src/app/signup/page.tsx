@@ -24,6 +24,15 @@ const signInOptionStyle = {
   p: 4,
   border: "2px solid black",
   color: "black",
+  _hover: {
+    transform: "scale(1.01)",
+    boxShadow: {
+      base: "0 5px 10px 0 rgba(0,0,0,0.19)",
+      _dark: "0 5px 10px 0 rgba(255,255,255,0.19)",
+    },
+    transition: "all ease 0.1s",
+  },
+  cursor: "pointer"
 };
 
 export default function SignUp() {
@@ -49,12 +58,24 @@ export default function SignUp() {
         })}
       >
         <div className={center()}>
+          <Link href={"/"}>
           <Image
             src={"/dslogo.png"}
             alt="Dear Stranger Logo"
             width={100}
             height={100}
+            className={css({
+              _hover: {
+                filter: {
+                  base: "drop-shadow(0px 5px 10px rgba(0,0,0,0.25))",
+                  _dark: "drop-shadow(0px 5px 10px rgba(255,255,255,0.25))",
+                },
+                transition: "all ease 0.1s",
+                transform: "scale(1.05)",
+              },
+            })}
           ></Image>
+          </Link>
         </div>
         <div
           className={css({
