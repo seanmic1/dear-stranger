@@ -7,6 +7,7 @@ import {
   spacer,
   center
 } from "../../../styled-system/patterns";
+import Link from "next/link";
 
 const headerStyle = { fontSize: "xl", textAlign: "left", fontWeight:"bold", mt:8, mb:2 }
 
@@ -21,9 +22,9 @@ export default async function About() {
           What is Dear Stranger?
         </p>
         <p>
-          Dear Stranger is about letting people send anonymous letters to be answered by absolutely anyone in the world! 
+          Dear Stranger is about letting people send anonymized letters to be answered by absolutely anyone in the world! 
           You can use it to share an idea, tell a joke, confess secrets, or really whatever it is you want to say. 
-          <br></br>(As long as it&apos;s not offensive)
+          <br></br>As long as it&apos;s not offensive...
         </p>
         <p className={css(headerStyle)}>
           Why was it made?
@@ -50,13 +51,21 @@ export default async function About() {
           <br></br>
           It also uses NextAuth to handle User Authentication and nodemailer to send emails.
         </p>
-        <p className={css({ fontSize: "3xl", textAlign: "center", p: "4", mt:"12", fontWeight:"bolder" })}>
+        <p className={css({ fontSize: "3xl", textAlign: "center", p: "4", mt:"5", fontWeight:"bolder" })}>
           Credits
         </p>
         <p className={css({textAlign: "center"})}>
           Sean Michael
           <br/>
           Amirul Azizol
+        </p>
+        <p className={css({ fontSize: "3xl", textAlign: "center", p: "4", mt:"5", fontWeight:"bolder" })}>
+          Legal information
+        </p>
+        <p className={css({textAlign: "center", color: "blue.500"})}>
+          <Link href={"/terms"}>Terms of Service</Link>
+          <br/>
+          <Link href={"/privacy"}>Privacy Policy</Link>
         </p>
       </div>
     );
