@@ -11,11 +11,9 @@ import TextAreaWithCounter from "./TextAreaWithCounter";
 import CountrySelect from "./CountrySelect";
 import Link from "next/link";
 import { CustomSession } from "@/lib/CustomSession";
-import Success from "./Success";
-import Fail from "./Fail";
 
 export default async function WriteLetter() {
-  const session = await getServerSession(options) as CustomSession;
+  const session = (await getServerSession(options)) as CustomSession;
 
   if (!session) {
     redirect("/api/auth/signin");
@@ -24,11 +22,26 @@ export default async function WriteLetter() {
   async function submitLetter(formData: FormData) {
     "use server";
 
+    // check for toxicity
+    const toxicCheck = await fetch("http://localhost:3000/api/checkToxic", {
+      method: "POST",
+      body: JSON.stringify({ content: formData.get("content") }),
+      cache: "no-cache",
+    });
+    const isToxic = (await toxicCheck.json()).response;
+
+    if (isToxic) {
+      redirect("/malicious");
+    }
+
     const response = await prisma.letter.create({
       data: {
         letterAuthorId: String(session.user?.id),
         letterContent: String(formData.get("content")),
-        letterCountry: String(formData.get("country")) === "" ? null : String(formData.get("country"))
+        letterCountry:
+          String(formData.get("country")) === ""
+            ? null
+            : String(formData.get("country")),
       },
     });
 
@@ -40,12 +53,11 @@ export default async function WriteLetter() {
     });
 
     if (response) {
-      redirect("/success")
+      redirect("/success");
     } else {
-      redirect("/fail")
+      redirect("/fail");
     }
   }
-
 
   async function randomSuggestion() {
     function getRandomInt(max: number) {
@@ -112,7 +124,8 @@ export default async function WriteLetter() {
     return (
       <div className={container({ maxW: "4xl" })}>
         <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
-          To prevent spam, you can only write 10 letters per hour! Please try again later.
+          To prevent spam, you can only write 10 letters per hour! Please try
+          again later.
         </p>
         <Link href="/">
           <div
@@ -135,7 +148,7 @@ export default async function WriteLetter() {
       </div>
     );
   }
-  
+
   return (
     <div className={container({ maxW: "4xl" })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
@@ -154,7 +167,13 @@ export default async function WriteLetter() {
       </p>
       <form id="letterForm" action={submitLetter}>
         <TextAreaWithCounter>{"Dear stranger,\n\n"}</TextAreaWithCounter>
-        <div className={flex({ justifyContent: "space-between", direction:{base: "column", md:"row"}, gap:{base:"1rem",md:"none"} })}>
+        <div
+          className={flex({
+            justifyContent: "space-between",
+            direction: { base: "column", md: "row" },
+            gap: { base: "1rem", md: "none" },
+          })}
+        >
           <CountrySelect></CountrySelect>
           <Button></Button>
         </div>

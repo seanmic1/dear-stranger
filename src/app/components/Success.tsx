@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Success() {
   return (
     <div className={container({ maxW: "4xl" })}>
-      <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
+      <p className={css({ fontSize: "3xl", textAlign: "center", p: "8", mt:"16"})}>
         Letter sent!
       </p>
       <Link href="/">

@@ -1,5 +1,8 @@
 {
   "name": "dear-stranger",
+  "engines": {
+    "node": "18.16.1"
+  },
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,6 +15,9 @@
   "dependencies": {
     "@auth/pg-adapter": "^0.2.1",
     "@prisma/client": "^5.4.2",
+    "@tensorflow-models/toxicity": "^1.0.3",
+    "@tensorflow/tfjs": "^4.12.0",
+    "@tensorflow/tfjs-node": "^4.12.0",
     "@types/node": "20.6.2",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
@@ -23,6 +29,7 @@
     "next": "^13.5.4",
     "next-auth": "^4.23.2",
     "next-themes": "^0.2.1",
+    "node-gyp": "^9.4.0",
     "nodemailer": "^6.9.5",
     "pg": "^8.11.3",
     "postcss": "^8.4.31",
@@ -35,8 +42,9 @@
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.15.0",
+    "@pandacss/dev": "^0.17.0",
     "@types/react-google-recaptcha": "^2.1.6",
+    "encoding": "^0.1.13",
     "prisma": "^5.4.2"
   }
 }

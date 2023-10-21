@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Fail() {
   return (
     <div className={container({ maxW: "4xl" })}>
-      <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
+      <p className={css({ fontSize: "3xl", textAlign: "center", p: "8", mt:"16"})}>
         Something went wrong!
       </p>
       <Link href="/">

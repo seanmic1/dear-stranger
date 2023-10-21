@@ -145,7 +145,7 @@ export default async function RespondLetter() {
     const unrespondedLetters = await prisma.letter.findMany({
       where: {
         responseAuthorId: null,
-        letterAuthorId: {not: String(session.user?.id)}
+        letterAuthorId: { not: String(session.user?.id) },
       },
     });
 
@@ -214,6 +214,18 @@ export default async function RespondLetter() {
   async function submitResponse(formData: FormData) {
     "use server";
 
+    // check for toxicity
+    const toxicCheck = await fetch("http://localhost:3000/api/checkToxic", {
+      method: "POST",
+      body: JSON.stringify({ content: formData.get("content") }),
+      cache: "no-cache",
+    });
+    const isToxic = (await toxicCheck.json()).response;
+
+    if (isToxic) {
+      redirect("/malicious");
+    }
+
     // update letter to create response
 
     // get letter
@@ -239,9 +251,18 @@ export default async function RespondLetter() {
       data: {
         responseAuthorId: String(session?.user?.id),
         responseContent: String(formData.get("content")),
-        responseCountry: String(formData.get("country")) === "" ? null : String(formData.get("country")),
+        responseCountry:
+          String(formData.get("country")) === ""
+            ? null
+            : String(formData.get("country")),
         responseDate: new Date(),
       },
+    });
+
+    // update user letterToRespond to null
+    await prisma.user.update({
+      where: { id: String(session.user?.id) },
+      data: { letterToRespond: null },
     });
 
     // send email to letter author
@@ -264,9 +285,7 @@ export default async function RespondLetter() {
 
     const subject = "Dear Stranger, your letter got a response!";
     const toEmail = letterAuthor.email;
-    const otpText =
-      "Read the response with the link below! \n\n" +
-      letterLink;
+    const otpText = "Read the response with the link below! \n\n" + letterLink;
     const htmlText = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -785,24 +804,19 @@ export default async function RespondLetter() {
 
     sendMail(subject, toEmail, otpText, htmlText);
 
-    // update user letterToRespond to null
-    await prisma.user.update({
-      where: { id: String(session.user?.id) },
-      data: { letterToRespond: null },
-    });
-
     redirect("/success");
   }
 
   type CountryData = { [code: string]: string };
   const countryCode =
     Object.keys(countryData as CountryData).find(
-      (code) => (countryData as CountryData)[code] === randomLetter?.letterCountry
+      (code) =>
+        (countryData as CountryData)[code] === randomLetter?.letterCountry
     ) || "";
   const countryUrl = `https://flagsapi.com/${countryCode}/flat/64.png`;
 
   return (
-    <div className={container({ maxW: "8xl", pb:16 })}>
+    <div className={container({ maxW: "8xl", pb: 16 })}>
       <p className={css({ fontSize: "3xl", textAlign: "center", p: "8" })}>
         Respond to a letter
       </p>
@@ -867,7 +881,7 @@ export default async function RespondLetter() {
               border: "2px solid black",
               whiteSpace: "pre-line",
               overflowY: "scroll",
-              scrollbar:"hidden",
+              scrollbar: "hidden",
               _focus: {
                 outline: "none",
               },
