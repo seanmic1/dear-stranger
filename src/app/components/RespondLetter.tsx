@@ -215,7 +215,7 @@ export default async function RespondLetter() {
     "use server";
 
     // check for toxicity
-    const toxicCheck = await fetch("http://localhost:3000/api/checkToxic", {
+    const toxicCheck = await fetch("https://dear-stranger.vercel.app/api/checkToxic", {
       method: "POST",
       body: JSON.stringify({ content: formData.get("content") }),
       cache: "no-cache",
