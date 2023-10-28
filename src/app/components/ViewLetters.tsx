@@ -98,8 +98,8 @@ export default async function ViewLetters() {
               <Link href={"/writeletter"}>
                 <span
                   className={css({
-                    color: "blue",
-                    _dark: { color: "darkcyan" },
+                    color: "amber.300",
+                    _dark: { color: "amber.300" },
                   })}
                 >
                   Write one now?
